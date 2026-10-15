@@ -45,6 +45,9 @@ toggle.addEventListener('click', () => {
   toggle.textContent = mounted ? 'Mount' : 'Unmount'
 })
 
+// A real anchor, kept from navigating so the page stays put.
+document.getElementById('anchor').addEventListener('click', (event) => event.preventDefault())
+
 const install = document.getElementById('install')
 const installState = install.querySelector('.install-state')
 let installReset = 0
