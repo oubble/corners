@@ -36,7 +36,7 @@ export {
 export type Unmount = () => void
 
 export interface ObserveOptions {
-  /** Which elements receive a capsule. Defaults to `[data-capsule]`. */
+  /** Which elements receive a capsule. Defaults to `[data-corners]`. */
   readonly selector?: string
 }
 
@@ -57,11 +57,11 @@ interface Mount {
   height: number
 }
 
-const SELECTOR = '[data-capsule]'
-const STROKE = 'data-capsule-stroke'
-const STATE = 'data-capsule-state'
-const PAINT = '--_capsule-paint'
-const CLIP = '--_capsule-clip'
+const SELECTOR = '[data-corners]'
+const STROKE = 'data-corners-stroke'
+const STATE = 'data-corners-state'
+const PAINT = '--_corners-paint'
+const CLIP = '--_corners-clip'
 const ELEMENT_NODE = 1
 const DOCUMENT_NODE = 9
 
@@ -102,11 +102,11 @@ export function mount(host: HTMLElement): Unmount {
   const requested = Math.max(0, Number.parseFloat(host.getAttribute(STROKE) ?? '') || 0)
   if (requested > 0 && !SUPPORTS_EVENODD) report(host, 'OUB004')
   const paint =
-    requested > 0 ? 'var(--capsule-stroke, currentColor)' : `var(--capsule-fill, ${style.background})`
+    requested > 0 ? 'var(--corners-stroke, currentColor)' : `var(--corners-fill, ${style.background})`
 
   // The computed style is live: read the author's corners before override() zeroes them.
   const radii = CORNERS.map((property) => parseRadius(style.getPropertyValue(property)))
-  const smoothing = parseSmoothing(style.getPropertyValue('--capsule-smoothing'))
+  const smoothing = parseSmoothing(style.getPropertyValue('--corners-smoothing'))
   const state: Mount = {
     hadStyleAttribute: existing?.hadStyleAttribute ?? host.hasAttribute('style'),
     saved: override(host, style),
@@ -152,7 +152,7 @@ export function unmount(host: HTMLElement): void {
 /**
  * Mounts every element under `root` that matches the selector, now and as
  * the tree changes: insertions mount, removals unmount, and edits to `class`
- * or the `data-capsule*` attributes re-read the element.
+ * or the `data-corners*` attributes re-read the element.
  *
  * @returns a function that stops observing and unmounts everything it mounted.
  */
@@ -199,7 +199,7 @@ export function observe(
     subtree: true,
     childList: true,
     attributes: true,
-    attributeFilter: ['class', 'data-capsule', STROKE],
+    attributeFilter: ['class', 'data-corners', STROKE],
   })
 
   return () => {
@@ -335,8 +335,8 @@ type Code = keyof typeof DIAGNOSTICS
 
 const DIAGNOSTICS = {
   OUB001: 'box-shadow follows the element rectangle, not the capsule. Use filter: drop-shadow().',
-  OUB002: 'border follows the element rectangle, not the capsule. Use data-capsule-stroke.',
-  OUB003: '::before is already styled on this element. Capsule paints with it.',
+  OUB002: 'border follows the element rectangle, not the capsule. Use data-corners-stroke.',
+  OUB003: '::before is already styled on this element. Corners paints with it.',
   OUB004: 'clip-path: path(evenodd, …) is unsupported here, so the stroke renders as a solid capsule.',
 } as const
 
@@ -359,7 +359,7 @@ function report(host: Element, code: Code): void {
   if (codes.has(code)) return
   reported.set(host, codes.add(code))
   console.warn(
-    `[capsule] ${code}: ${DIAGNOSTICS[code]}\nhttps://github.com/oubble/capsule#${code.toLowerCase()}`,
+    `[corners] ${code}: ${DIAGNOSTICS[code]}\nhttps://github.com/oubble/corners#${code.toLowerCase()}`,
     host,
   )
 }

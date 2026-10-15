@@ -20,6 +20,6 @@ body:
     id: environment
     attributes:
       label: Environment
-      placeholder: @oubble/capsule 1.0.0 · Safari 18.2 · macOS 15
+      placeholder: @oubble/corners 1.0.0 · Safari 18.2 · macOS 15
     validations:
       required: true

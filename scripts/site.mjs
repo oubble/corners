@@ -1,4 +1,4 @@
-// Assembles the lab.oubble.com bundle in site/: the lab under /capsule/, the
+// Assembles the lab.oubble.com bundle in site/: the lab under /corners/, the
 // built package and llms.txt beside it, and the security headers the
 // host applies.
 
@@ -6,7 +6,7 @@ import { cp, mkdir, rm, writeFile } from 'node:fs/promises'
 
 const root = new URL('../', import.meta.url)
 const site = new URL('site/', root)
-const lab = new URL('capsule/', site)
+const lab = new URL('corners/', site)
 
 const HEADERS = `/*
   Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'

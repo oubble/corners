@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Capsule · Oubble Lab</title>
+    <title>Corners · Oubble Lab</title>
     <meta name="description" content="iOS capsules and continuous corners for HTML: deviation from border-radius, gallery and edge cases." />
     <meta name="theme-color" content="#09090b" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
@@ -19,18 +19,18 @@
       <header class="band bar">
         <a class="logo" href="https://oubble.com"><img src="logo.svg" width="107" height="36" alt="Oubble" /></a>
         <nav>
-          <a data-capsule data-capsule-stroke="1" class="nav-pill ghost-pill semi" href="https://www.npmjs.com/package/@oubble/capsule"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/></svg>npm</a>
-          <a data-capsule class="nav-pill paper-pill semi" href="https://github.com/oubble/capsule"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
+          <a data-corners data-corners-stroke="1" class="nav-pill ghost-pill semi" href="https://www.npmjs.com/package/@oubble/corners"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/></svg>npm</a>
+          <a data-corners class="nav-pill paper-pill semi" href="https://github.com/oubble/corners"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
         </nav>
       </header>
 
       <section class="band intro">
         <span class="index" aria-hidden="true"></span>
         <div>
-        <p class="eyebrow">@oubble/capsule <span>v1.0.0</span></p>
+        <p class="eyebrow">@oubble/corners <span>v1.0.0</span></p>
         <h1>The iOS curve, <em>for HTML</em></h1>
         <p class="lede">
-          Every shape on this page is a plain element with a <code>data-capsule</code> attribute. Full radii become the
+          Every shape on this page is a plain element with a <code>data-corners</code> attribute. Full radii become the
           calibrated iOS capsule, smaller ones continuous corners, without wrappers, SVG or dependencies.
         </p>
         </div>
@@ -39,8 +39,8 @@
       <div class="band cells facts">
         <div class="cell spacer" aria-hidden="true"></div>
         <div class="cell">
-          <button type="button" data-capsule class="install-pill" id="install">
-            <span>npm i @oubble/capsule</span><span class="install-state" aria-live="polite">Copy</span>
+          <button type="button" data-corners class="install-pill" id="install">
+            <span>npm i @oubble/corners</span><span class="install-state" aria-live="polite">Copy</span>
           </button>
         </div>
         <div class="cell fact"><strong>3 kB</strong><span>compressed, zero dependencies</span></div>
@@ -64,7 +64,7 @@
         <span class="index">02</span>
         <div>
           <h2>Continuous <em>corners</em></h2>
-          <p>Give it any smaller radius and the corner flows out of the edge the way iOS draws it. Set how much with <code>--capsule-smoothing</code>, 0.6 by default.</p>
+          <p>Give it any smaller radius and the corner flows out of the edge the way iOS draws it. Set how much with <code>--corners-smoothing</code>, 0.6 by default.</p>
         </div>
       </section>
       <div class="band cells three" id="corners"></div>
@@ -81,18 +81,18 @@
         </div>
       </section>
       <div class="band cells four">
-        <div class="cell"><span class="label">Short label</span><button type="button" data-capsule class="cream">Ok</button></div>
-        <div class="cell"><span class="label">Graphite fill</span><button type="button" data-capsule class="graphite">Confirm booking</button></div>
-        <div class="cell"><span class="label">52 px tall</span><button type="button" data-capsule class="large cream">Continue to payment</button></div>
-        <div class="cell"><span class="label">Square, 72 × 72</span><button type="button" data-capsule class="cream circle">72×72</button></div>
+        <div class="cell"><span class="label">Short label</span><button type="button" data-corners class="cream">Ok</button></div>
+        <div class="cell"><span class="label">Graphite fill</span><button type="button" data-corners class="graphite">Confirm booking</button></div>
+        <div class="cell"><span class="label">52 px tall</span><button type="button" data-corners class="large cream">Continue to payment</button></div>
+        <div class="cell"><span class="label">Square, 72 × 72</span><button type="button" data-corners class="cream circle">72×72</button></div>
         <div class="cell span-2">
           <span class="label">Wrapping text</span>
-          <button type="button" data-capsule class="multiline graphite">
+          <button type="button" data-corners class="multiline graphite">
             A button with far more text than any design anticipated, wrapping across several lines
           </button>
         </div>
-        <div class="cell"><span class="label">data-capsule-stroke="1"</span><button type="button" data-capsule data-capsule-stroke="1" class="ring-cream">Stroke 1px</button></div>
-        <div class="cell"><span class="label">Gradient stroke, 4 px</span><button type="button" data-capsule data-capsule-stroke="4" class="large ring-blend">Blended stroke</button></div>
+        <div class="cell"><span class="label">data-corners-stroke="1"</span><button type="button" data-corners data-corners-stroke="1" class="ring-cream">Stroke 1px</button></div>
+        <div class="cell"><span class="label">Gradient stroke, 4 px</span><button type="button" data-corners data-corners-stroke="4" class="large ring-blend">Blended stroke</button></div>
       </div>
 
       <section class="band head">
@@ -103,21 +103,21 @@
         </div>
       </section>
       <div class="band cells three">
-        <div class="cell"><span class="label">Hover with --capsule-fill</span><button type="button" data-capsule class="cream hover-fill">Hover me</button></div>
-        <div class="cell"><span class="label">Anchor, display: inline</span><a data-capsule class="cream" href="#gallery">I am a link</a></div>
-        <div class="cell"><span class="label">Resize, drag the corner</span><div data-capsule class="resizable cream">Resize</div></div>
-        <div class="cell"><span class="label">Fractional, 216.5 × 74.5</span><button type="button" data-capsule class="fractional cream">Fractional</button></div>
+        <div class="cell"><span class="label">Hover with --corners-fill</span><button type="button" data-corners class="cream hover-fill">Hover me</button></div>
+        <div class="cell"><span class="label">Anchor, display: inline</span><a data-corners class="cream" href="#gallery">I am a link</a></div>
+        <div class="cell"><span class="label">Resize, drag the corner</span><div data-corners class="resizable cream">Resize</div></div>
+        <div class="cell"><span class="label">Fractional, 216.5 × 74.5</span><button type="button" data-corners class="fractional cream">Fractional</button></div>
         <div class="cell"><span class="label">Inserted after 1.5 s</span><span id="late"></span></div>
         <div class="cell">
           <span class="label">Mount and unmount</span>
           <div class="pair">
-            <button type="button" data-capsule id="target" class="cream">Target</button>
-            <button type="button" data-capsule data-capsule-stroke="1" class="ghost-pill small-pill" id="toggle">Unmount</button>
+            <button type="button" data-corners id="target" class="cream">Target</button>
+            <button type="button" data-corners data-corners-stroke="1" class="ghost-pill small-pill" id="toggle">Unmount</button>
           </div>
         </div>
-        <div class="cell"><span class="label">writing-mode: vertical-rl</span><button type="button" data-capsule class="vertical cream">Vertical</button></div>
-        <div class="cell"><span class="label">Misuse: box-shadow, warns OUB001</span><button type="button" data-capsule class="wrong-shadow">box-shadow</button></div>
-        <div class="cell"><span class="label">Misuse: border, warns OUB002</span><button type="button" data-capsule class="wrong-border">border</button></div>
+        <div class="cell"><span class="label">writing-mode: vertical-rl</span><button type="button" data-corners class="vertical cream">Vertical</button></div>
+        <div class="cell"><span class="label">Misuse: box-shadow, warns OUB001</span><button type="button" data-corners class="wrong-shadow">box-shadow</button></div>
+        <div class="cell"><span class="label">Misuse: border, warns OUB002</span><button type="button" data-corners class="wrong-border">border</button></div>
       </div>
       <div class="band diagnostics" id="diagnostics" hidden>
         <span class="label">Console</span>
@@ -130,7 +130,7 @@
           <div class="final-cta__content" id="closing">
             <h2>Great <em>things</em> happen<br />outside the <em>bubble</em></h2>
             <p>Good design has to run.</p>
-            <div><a data-capsule class="final-cta__button paper-pill semi" href="https://oubble.com">Get in touch</a></div>
+            <div><a data-corners class="final-cta__button paper-pill semi" href="https://oubble.com">Get in touch</a></div>
           </div>
         </div>
       </footer>

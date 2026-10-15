@@ -13,18 +13,18 @@ First public release.
 ### Added
 
 - `capsulePath` and `capsuleRingPath`: iOS-calibrated capsule outlines as SVG
-  path data, available DOM-free from `@oubble/capsule/geometry`.
+  path data, available DOM-free from `@oubble/corners/geometry`.
 - `roundedPath` and `roundedRingPath`: continuous corners for any radius, with
   Figma's corner smoothing (`IOS_SMOOTHING`, 0.6, by default).
 - A partial `border-radius` on a mounted element becomes a continuous corner of
-  that radius; `--capsule-smoothing` sets how smooth.
-- `mount`, `unmount` and `observe` in `@oubble/capsule/core`, with no side effects.
-- `@oubble/capsule` entry that mounts every `[data-capsule]` element on import.
-- Strokes through `data-capsule-stroke` and `--capsule-stroke`; fill overrides
-  through `--capsule-fill`.
+  that radius; `--corners-smoothing` sets how smooth.
+- `mount`, `unmount` and `observe` in `@oubble/corners/core`, with no side effects.
+- `@oubble/corners` entry that mounts every `[data-corners]` element on import.
+- Strokes through `data-corners-stroke` and `--corners-stroke`; fill overrides
+  through `--corners-fill`.
 - Shadow DOM support, Content Security Policy compatibility and diagnostics
   `OUB001` to `OUB004`.
 - IIFE build for `<script>` use from a CDN.
 
-[Unreleased]: https://github.com/oubble/capsule/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/oubble/capsule/releases/tag/v1.0.0
+[Unreleased]: https://github.com/oubble/corners/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/oubble/corners/releases/tag/v1.0.0

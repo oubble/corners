@@ -11,9 +11,9 @@ export default defineConfig([
     clean: true,
   },
   {
-    entry: { capsule: 'src/index.ts' },
+    entry: { corners: 'src/index.ts' },
     format: 'iife',
-    globalName: 'OubbleCapsule',
+    globalName: 'OubbleCorners',
     platform: 'browser',
     target: 'es2022',
     minify: true,

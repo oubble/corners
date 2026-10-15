@@ -27,19 +27,19 @@ setTimeout(() => {
     className: 'graphite',
     textContent: 'Born later',
   })
-  button.dataset.capsule = ''
+  button.dataset.corners = ''
   document.getElementById('late').append(button)
 }, 1500)
 
 const target = document.getElementById('target')
 const toggle = document.getElementById('toggle')
 toggle.addEventListener('click', () => {
-  const mounted = target.hasAttribute('data-capsule-state')
+  const mounted = target.hasAttribute('data-corners-state')
   if (mounted) {
-    target.removeAttribute('data-capsule')
+    target.removeAttribute('data-corners')
     unmount(target)
   } else {
-    target.setAttribute('data-capsule', '')
+    target.setAttribute('data-corners', '')
     mount(target)
   }
   toggle.textContent = mounted ? 'Mount' : 'Unmount'
@@ -50,7 +50,7 @@ const installState = install.querySelector('.install-state')
 let installReset = 0
 install.addEventListener('click', async () => {
   try {
-    await navigator.clipboard.writeText('npm i @oubble/capsule')
+    await navigator.clipboard.writeText('npm i @oubble/corners')
     install.dataset.copied = ''
     installState.textContent = 'Copied'
   } catch {
@@ -119,7 +119,7 @@ function specimen(parent, element, r, plain, shape, caption) {
 }
 
 function sized(element, w, h) {
-  element.dataset.capsule = ''
+  element.dataset.corners = ''
   element.style.setProperty('width', `${w}px`)
   element.style.setProperty('height', `${h}px`)
   return element

@@ -44,7 +44,7 @@ const shared = await productionHeaders()
 createServer(async (request, response) => {
   const url = new URL(request.url ?? '/', 'http://localhost')
   if (url.pathname === '/') {
-    response.writeHead(302, { location: site ? '/capsule/' : '/test/fixtures/' }).end()
+    response.writeHead(302, { location: site ? '/corners/' : '/test/fixtures/' }).end()
     return
   }
   const relative = normalize(decodeURIComponent(url.pathname)).replace(/[/\\]$/, `${sep}index.html`)
@@ -75,4 +75,4 @@ createServer(async (request, response) => {
     }
     response.writeHead(404).end()
   }
-}).listen(port, () => console.log(`http://localhost:${port}${site ? '/capsule/' : '/'}`))
+}).listen(port, () => console.log(`http://localhost:${port}${site ? '/corners/' : '/'}`))

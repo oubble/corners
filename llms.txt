@@ -1,66 +1,66 @@
-# @oubble/capsule
+# @oubble/corners
 
 > iOS-calibrated capsules and continuous (smoothed) corners for HTML elements,
 > through `clip-path`, without wrappers, SVG or dependencies. ESM, SSR-safe.
 
-Use Capsule when a design asks for iOS-looking shapes: fully rounded buttons,
+Use Corners when a design asks for iOS-looking shapes: fully rounded buttons,
 chips and tags, and cards, tiles or buttons with continuous corners. Works in
 every engine, unlike `corner-shape: squircle` (Chromium only).
 
 ## Install and enable
 
 ```sh
-npm i @oubble/capsule
+npm i @oubble/corners
 ```
 
 ```js
-import '@oubble/capsule' // once, in the app entry. Mounts every [data-capsule] element, now and later.
+import '@oubble/corners' // once, in the app entry. Mounts every [data-corners] element, now and later.
 ```
 
 ```html
-<button data-capsule class="cta">Continue</button>
+<button data-corners class="cta">Continue</button>
 ```
 
-CDN, no build step: `<script src="https://unpkg.com/@oubble/capsule"></script>`
+CDN, no build step: `<script src="https://unpkg.com/@oubble/corners"></script>`
 
 ## Rules
 
 - The element's own `border-radius` picks the shape: none or a full radius
   gives the capsule, a smaller one a continuous corner of that radius.
-  `--capsule-smoothing: 0..1` (default 0.6) sets how smooth.
+  `--corners-smoothing: 0..1` (default 0.6) sets how smooth.
 - The element's own `background` becomes the fill. Keep styling it
   with normal CSS.
-- Change fill on hover or other states with `--capsule-fill`, not `background`:
-  `.cta:hover { --capsule-fill: #0a84ff }`. Class changes are picked up
+- Change fill on hover or other states with `--corners-fill`, not `background`:
+  `.cta:hover { --corners-fill: #0a84ff }`. Class changes are picked up
   automatically; `:hover` and inline style changes are not.
 - Shadows: `filter: drop-shadow(...)`. Never `box-shadow` (renders a
   rectangle, warning OUB001).
-- Outlines: `data-capsule-stroke="2"` plus `--capsule-stroke: <color or gradient>`.
+- Outlines: `data-corners-stroke="2"` plus `--corners-stroke: <color or gradient>`.
   Never `border` (renders a rectangle, warning OUB002).
 - `::before` is reserved on mounted elements (warning OUB003). Put icons in
   children.
-- Optional no-JS fallback: `[data-capsule] { border-radius: calc(infinity * 1px) }`.
+- Optional no-JS fallback: `[data-corners] { border-radius: calc(infinity * 1px) }`.
 - Transforms, filters, transitions, focus styles and events work as usual.
 
 ## Frameworks
 
-The attribute is the whole API: render `data-capsule` in React, Vue, Svelte,
-Solid or Astro and import `@oubble/capsule` once. For explicit lifecycles use the
+The attribute is the whole API: render `data-corners` in React, Vue, Svelte,
+Solid or Astro and import `@oubble/corners` once. For explicit lifecycles use the
 side-effect-free entry:
 
 ```ts
-import { mount } from '@oubble/capsule/core'
+import { mount } from '@oubble/corners/core'
 useLayoutEffect(() => mount(ref.current!), []) // returns its cleanup
 ```
 
-Web components: call `observe(shadowRoot)` from `@oubble/capsule/core`.
+Web components: call `observe(shadowRoot)` from `@oubble/corners/core`.
 
 ## API
 
-- `@oubble/capsule`: auto entry, re-exports everything below.
-- `@oubble/capsule/core`: `mount(el): () => void`, `unmount(el)`,
+- `@oubble/corners`: auto entry, re-exports everything below.
+- `@oubble/corners/core`: `mount(el): () => void`, `unmount(el)`,
   `observe(root?, { selector? }): () => void`.
-- `@oubble/capsule/geometry` (no DOM): `capsulePath(width, height, x?, y?)`,
+- `@oubble/corners/geometry` (no DOM): `capsulePath(width, height, x?, y?)`,
   `capsuleRingPath(width, height, thickness)`,
   `roundedPath(width, height, radius, smoothing?, x?, y?)` and
   `roundedRingPath(width, height, radius, thickness, smoothing?)` return SVG
@@ -73,5 +73,5 @@ Web components: call `observe(shadowRoot)` from `@oubble/capsule/core`.
 
 ## Links
 
-- Source and full documentation: https://github.com/oubble/capsule
-- Live lab: https://lab.oubble.com/capsule/
+- Source and full documentation: https://github.com/oubble/corners
+- Live lab: https://lab.oubble.com/corners/

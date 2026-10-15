@@ -1,8 +1,9 @@
 {
-  "name": "@oubble/capsule",
+  "name": "@oubble/corners",
   "version": "1.0.0",
   "description": "iOS shapes on your own HTML elements: capsules calibrated against a native iOS button to under half a pixel, and continuous corners for every other radius. No SVG, no wrappers, zero dependencies.",
   "keywords": [
+    "corners",
     "capsule",
     "pill",
     "button",
@@ -16,11 +17,11 @@
     "geometry",
     "css"
   ],
-  "homepage": "https://github.com/oubble/capsule#readme",
-  "bugs": "https://github.com/oubble/capsule/issues",
+  "homepage": "https://github.com/oubble/corners#readme",
+  "bugs": "https://github.com/oubble/corners/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oubble/capsule.git"
+    "url": "git+https://github.com/oubble/corners.git"
   },
   "license": "MIT",
   "author": "Oubble (https://oubble.com)",
@@ -42,15 +43,15 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "unpkg": "./dist/capsule.iife.js",
-  "jsdelivr": "./dist/capsule.iife.js",
+  "unpkg": "./dist/corners.iife.js",
+  "jsdelivr": "./dist/corners.iife.js",
   "files": [
     "dist",
     "llms.txt"
   ],
   "sideEffects": [
     "./dist/index.js",
-    "./dist/capsule.iife.js"
+    "./dist/corners.iife.js"
   ],
   "scripts": {
     "build": "tsdown",
@@ -81,12 +82,12 @@
   },
   "size-limit": [
     {
-      "name": "@oubble/capsule (auto)",
+      "name": "@oubble/corners (auto)",
       "path": "dist/index.js",
       "limit": "3.2 kB"
     },
     {
-      "name": "@oubble/capsule/geometry",
+      "name": "@oubble/corners/geometry",
       "path": "dist/geometry.js",
       "import": "{ capsulePath }",
       "limit": "500 B"

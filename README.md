@@ -1,12 +1,12 @@
 <div align="center">
 
 <pre>
- ██████╗ █████╗ ██████╗ ███████╗██╗   ██╗██╗     ███████╗
-██╔════╝██╔══██╗██╔══██╗██╔════╝██║   ██║██║     ██╔════╝
-██║     ███████║██████╔╝███████╗██║   ██║██║     █████╗
-██║     ██╔══██║██╔═══╝ ╚════██║██║   ██║██║     ██╔══╝
-╚██████╗██║  ██║██║     ███████║╚██████╔╝███████╗███████╗
- ╚═════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚══════╝╚══════╝
+ ██████╗ ██████╗ ██████╗ ███╗   ██╗███████╗██████╗ ███████╗
+██╔════╝██╔═══██╗██╔══██╗████╗  ██║██╔════╝██╔══██╗██╔════╝
+██║     ██║   ██║██████╔╝██╔██╗ ██║█████╗  ██████╔╝███████╗
+██║     ██║   ██║██╔══██╗██║╚██╗██║██╔══╝  ██╔══██╗╚════██║
+╚██████╗╚██████╔╝██║  ██║██║ ╚████║███████╗██║  ██║███████║
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚══════╝
 
 ⠀⣠⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣄
 ⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆
@@ -15,22 +15,22 @@
 ⠀⠙⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⠋
 </pre>
 
-**The iOS capsule, on your own HTML elements.**<br>
+**iOS capsules and continuous corners, on your own HTML elements.**<br>
 <sub>by <a href="https://oubble.com">Oubble</a></sub>
 
 Calibrated against a native iOS button to under half a pixel, with continuous corners for every other radius.<br>
 No SVG. No wrappers. Zero dependencies. 3 kB.
 
-[![npm](https://img.shields.io/npm/v/@oubble/capsule?color=d3b885&label=npm)](https://www.npmjs.com/package/@oubble/capsule) [![size](https://img.shields.io/bundlejs/size/@oubble/capsule?color=d3b885)](https://bundlejs.com/?q=@oubble/capsule) [![ci](https://github.com/oubble/capsule/actions/workflows/ci.yml/badge.svg)](https://github.com/oubble/capsule/actions/workflows/ci.yml) [![types](https://img.shields.io/npm/types/@oubble/capsule?color=d3b885)](./src/core.ts) [![license](https://img.shields.io/npm/l/@oubble/capsule?color=d3b885)](./LICENSE)
+[![npm](https://img.shields.io/npm/v/@oubble/corners?color=d3b885&label=npm)](https://www.npmjs.com/package/@oubble/corners) [![size](https://img.shields.io/bundlejs/size/@oubble/corners?color=d3b885)](https://bundlejs.com/?q=@oubble/corners) [![ci](https://github.com/oubble/corners/actions/workflows/ci.yml/badge.svg)](https://github.com/oubble/corners/actions/workflows/ci.yml) [![types](https://img.shields.io/npm/types/@oubble/corners?color=d3b885)](./src/core.ts) [![license](https://img.shields.io/npm/l/@oubble/corners?color=d3b885)](./LICENSE)
 
 </div>
 
 <p align="center">
-  <img src="./docs/hero.svg" width="880" alt="A capsule easing from border-radius: 50% into the Capsule outline and back, with its corner magnified">
+  <img src="./docs/hero.svg" width="880" alt="A capsule easing from border-radius: 50% into the calibrated capsule and back, with its corner magnified">
 </p>
 
 <p align="center">
-  <a href="https://lab.oubble.com/capsule/"><b>Live lab ↗</b></a> &nbsp;·&nbsp;
+  <a href="https://lab.oubble.com/corners/"><b>Live lab ↗</b></a> &nbsp;·&nbsp;
   <a href="#quick-start">Quick start</a> &nbsp;·&nbsp;
   <a href="#api">API</a> &nbsp;·&nbsp;
   <a href="#geometry">Geometry</a> &nbsp;·&nbsp;
@@ -49,7 +49,7 @@ iOS capsule starts bending earlier along the edge and eases into a cap of the
 full radius, so there is no point where straight visibly turns round.
 
 CSS cannot express that curve. Figma's corner smoothing collapses to zero on a
-fully rounded pill, and `corner-shape: squircle` flattens the cap. Capsule
+fully rounded pill, and `corner-shape: squircle` flattens the cap. Corners
 computes the exact outline for each element's size and applies it with
 `clip-path`. Your `<button>` stays a `<button>`: focus, forms, accessibility
 and event handling are untouched.
@@ -66,32 +66,32 @@ and event handling are untouched.
 
 At real size the difference is under a pixel; it is felt more than seen. Each
 window below magnifies one corner, more in depth than along the edge, and fills
-exactly what Capsule changes:
+exactly what Corners changes:
 
-<p align="center"><img src="./docs/sizes.svg" width="880" alt="Three buttons at real size, each with its corner magnified: Capsule solid, border-radius dashed, the difference filled"></p>
+<p align="center"><img src="./docs/sizes.svg" width="880" alt="Three buttons at real size, each with its corner magnified: capsule solid, border-radius dashed, the difference filled"></p>
 
 ## Install
 
 ```sh
-npm i @oubble/capsule   # pnpm add · yarn add · bun add
+npm i @oubble/corners   # pnpm add · yarn add · bun add
 ```
 
 ```html
 <!-- or straight from a CDN, no build step -->
-<script src="https://unpkg.com/@oubble/capsule"></script>
+<script src="https://unpkg.com/@oubble/corners"></script>
 ```
 
 ## Quick start
 
 ```html
-<button data-capsule>Continue</button>
+<button data-corners>Continue</button>
 ```
 
 ```js
-import '@oubble/capsule'
+import '@oubble/corners'
 ```
 
-That is the whole integration. Every `[data-capsule]` element in the document is
+That is the whole integration. Every `[data-corners]` element in the document is
 mounted, including elements inserted later by any framework.
 
 The element's own `border-radius` picks the shape. None, or a full radius, gives
@@ -99,10 +99,10 @@ the calibrated capsule. Anything smaller gives a continuous corner of that
 radius, the smoothed corner iOS and Figma draw:
 
 ```html
-<div data-capsule style="border-radius: 24px">Card</div>
+<div data-corners style="border-radius: 24px">Card</div>
 ```
 
-`--capsule-smoothing` sets how much of each corner is smoothed, from `0`
+`--corners-smoothing` sets how much of each corner is smoothed, from `0`
 (exactly `border-radius`) to `1`. The default, `0.6`, is Figma's iOS preset.
 
 ## Recipes
@@ -125,19 +125,19 @@ radius, the smoothed corner iOS and Figma draw:
 <td>
 
 ```html
-<button data-capsule data-capsule-stroke="2"
-        style="--capsule-stroke: #d3b885">Ghost</button>
+<button data-corners data-corners-stroke="2"
+        style="--corners-stroke: #d3b885">Ghost</button>
 ```
 
 </td>
-<td>A real transparent hole (<code>evenodd</code>). <code>--capsule-stroke</code> takes any paint, gradients included.</td>
+<td>A real transparent hole (<code>evenodd</code>). <code>--corners-stroke</code> takes any paint, gradients included.</td>
 </tr>
 <tr>
 <td>Hover colour</td>
 <td>
 
 ```css
-.cta:hover { --capsule-fill: #0a84ff; }
+.cta:hover { --corners-fill: #0a84ff; }
 ```
 
 </td>
@@ -159,11 +159,11 @@ radius, the smoothed corner iOS and Figma draw:
 <td>
 
 ```css
-[data-capsule] { border-radius: calc(infinity * 1px); }
+[data-corners] { border-radius: calc(infinity * 1px); }
 ```
 
 </td>
-<td>Before the script runs you get an ordinary pill; Capsule neutralizes it when it mounts.</td>
+<td>Before the script runs you get an ordinary pill; Corners neutralizes it when it mounts.</td>
 </tr>
 </table>
 
@@ -172,20 +172,20 @@ Transforms, filters, opacity and transitions on the element all behave as usual.
 ## Frameworks
 
 The attribute is the API, so there is nothing framework-specific to install.
-Import `@oubble/capsule` once in your entry file and render `data-capsule` anywhere:
+Import `@oubble/corners` once in your entry file and render `data-corners` anywhere:
 
 ```jsx
-<button data-capsule className="cta">Continue</button>          // React, Solid, Preact
+<button data-corners className="cta">Continue</button>          // React, Solid, Preact
 ```
 ```vue
-<button data-capsule class="cta">Continue</button>               <!-- Vue, Svelte, Astro -->
+<button data-corners class="cta">Continue</button>               <!-- Vue, Svelte, Astro -->
 ```
 
 The package is SSR-safe: nothing touches the DOM until it runs in a browser.
-For explicit lifecycles, use `@oubble/capsule/core`, which has no side effects:
+For explicit lifecycles, use `@oubble/corners/core`, which has no side effects:
 
 ```tsx
-import { mount } from '@oubble/capsule/core'
+import { mount } from '@oubble/corners/core'
 
 useLayoutEffect(() => mount(ref.current!), [])                   // returns its own cleanup
 ```
@@ -196,9 +196,9 @@ Three entry points, one shared runtime. Each is tree-shakable ESM with types.
 
 | Import | Side effects | Contents |
 | --- | --- | --- |
-| `@oubble/capsule` | mounts `[data-capsule]` on import | everything below |
-| `@oubble/capsule/core` | none | `mount` · `unmount` · `observe` · geometry |
-| `@oubble/capsule/geometry` | none, no DOM | `capsulePath` · `capsuleRingPath` · `roundedPath` · `roundedRingPath` |
+| `@oubble/corners` | mounts `[data-corners]` on import | everything below |
+| `@oubble/corners/core` | none | `mount` · `unmount` · `observe` · geometry |
+| `@oubble/corners/geometry` | none, no DOM | `capsulePath` · `capsuleRingPath` · `roundedPath` · `roundedRingPath` |
 
 ```ts
 mount(host: HTMLElement): Unmount
@@ -209,15 +209,15 @@ re-reads the element's background and stroke. Returns a function that unmounts.
 ```ts
 unmount(host: HTMLElement): void
 ```
-Removes the capsule. Every inline style Capsule touched is restored to its exact
+Removes the capsule. Every inline style Corners touched is restored to its exact
 previous value and priority; a `style` attribute it had to create is removed.
 
 ```ts
 observe(root?: Document | ShadowRoot | Element, options?: { selector?: string }): () => void
 ```
-Mounts every match under `root` (default `document`, selector `[data-capsule]`)
+Mounts every match under `root` (default `document`, selector `[data-corners]`)
 and follows the tree: insertions mount, removals unmount, edits to `class` or
-`data-capsule*` re-read the element. Pass a `ShadowRoot` to cover web
+`data-corners*` re-read the element. Pass a `ShadowRoot` to cover web
 components. Returns a disconnect function that unmounts what it mounted.
 
 ```ts
@@ -242,7 +242,7 @@ edge early, and a **cap** that is a true circle of the full radius `R = h / 2`.
 The radius is never shrunk to compensate, which is why the capsule keeps its
 full height at the ends.
 
-<p align="center"><img src="./docs/geometry.svg" alt="Top-left quadrant of the Capsule capsule against border-radius, with the junction J, the control points P₁ and P₂, the angle φ and the runout λ·R"></p>
+<p align="center"><img src="./docs/geometry.svg" alt="Top-left quadrant of the calibrated capsule against border-radius, with the junction J, the control points P₁ and P₂, the angle φ and the runout λ·R"></p>
 
 The four constants were fitted by least squares to the outline of a native iOS
 capsule, extracted from a screenshot with sub-pixel edge detection. Maximum
@@ -274,18 +274,18 @@ curve rotated, not a different fit.
 ## How it works
 
 ```
-  import '@oubble/capsule'
+  import '@oubble/corners'
         │
         ▼
-  observe(document) ───── MutationObserver ───── childList · class · data-capsule*
+  observe(document) ───── MutationObserver ───── childList · class · data-corners*
         │                        │
         │ match                  │ removed ──▶ unmount(host) ──▶ inline styles restored
         ▼                        ▼
   mount(host)
    ├─ getComputedStyle ────────── background · writing-mode · diagnostics
    ├─ inline !important ───────── background → transparent · radius → 0 · isolation
-   ├─ adoptedStyleSheets ──────── [data-capsule-state]::before { clip-path: var(--_capsule-clip) }
-   └─ ResizeObserver (shared) ─── borderBoxSize ──▶ capsulePath(w, h) ──▶ --_capsule-clip
+   ├─ adoptedStyleSheets ──────── [data-corners-state]::before { clip-path: var(--_corners-clip) }
+   └─ ResizeObserver (shared) ─── borderBoxSize ──▶ capsulePath(w, h) ──▶ --_corners-clip
 
                        ┌──────────── host <button> ────────────┐   transparent, isolated
                        │  ╭─────────── ::before ─────────────╮ │   background + clip-path
@@ -319,7 +319,7 @@ The suite runs on every commit in Chromium, Firefox and WebKit.
 
 ## Diagnostics
 
-Capsule warns once per element when CSS would silently render the wrong shape.
+Corners warns once per element when CSS would silently render the wrong shape.
 Each message carries a code that links here.
 
 ### OUB001
@@ -329,12 +329,12 @@ Each message carries a code that links here.
 
 ### OUB002
 
-`border` follows the element rectangle. Use `data-capsule-stroke="N"` and
-`--capsule-stroke`.
+`border` follows the element rectangle. Use `data-corners-stroke="N"` and
+`--corners-stroke`.
 
 ### OUB003
 
-`::before` is already styled on the element. Capsule paints the capsule with it;
+`::before` is already styled on the element. Corners paints the shape with it;
 move the decoration to a child element.
 
 ### OUB004
@@ -348,7 +348,7 @@ capsule in the stroke colour.
   horizontal value.
 - **`::before` is reserved** on mounted elements.
 - **Background changes made by `:hover` or inline styles** are not observed;
-  route them through `--capsule-fill`. Changes through `class` are picked up.
+  route them through `--corners-fill`. Changes through `class` are picked up.
 
 ## Security
 
@@ -359,7 +359,7 @@ capsule in the stroke colour.
 - **Content Security Policy.** Styles are applied through the CSSOM
   (`adoptedStyleSheets`, `style.setProperty`), which strict CSP allows. The
   suite verifies this under `default-src 'self'` with no inline styles allowed,
-  and the [live lab](https://lab.oubble.com/capsule/) is served under
+  and the [live lab](https://lab.oubble.com/corners/) is served under
   `default-src 'none'`.
 - **Provenance.** Releases are built and published from GitHub Actions with
   [npm provenance](https://docs.npmjs.com/generating-provenance-statements),
@@ -371,7 +371,7 @@ Report vulnerabilities privately; see [SECURITY.md](./SECURITY.md).
 
 ```sh
 pnpm install
-pnpm dev            # the lab at http://localhost:4174/capsule/, with production headers
+pnpm dev            # the lab at http://localhost:4174/corners/, with production headers
 pnpm verify         # lint · types · unit · build · package lint · size · browsers
 pnpm figures        # regenerate the README figures from the built package
 ```

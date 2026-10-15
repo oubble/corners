@@ -2,7 +2,7 @@ import { expect, type Page, test } from '@playwright/test'
 
 declare global {
   interface Window {
-    capsule: typeof import('../../src/index')
+    corners: typeof import('../../src/index')
     geometry: typeof import('../../src/geometry')
   }
 }
@@ -16,7 +16,7 @@ async function open(page: Page, query = ''): Promise<void> {
 }
 
 const clipOf = (page: Page, selector: string): Promise<string> =>
-  page.$eval(selector, (el) => (el as HTMLElement).style.getPropertyValue('--_capsule-clip'))
+  page.$eval(selector, (el) => (el as HTMLElement).style.getPropertyValue('--_corners-clip'))
 
 const expectedClip = (page: Page, width: number, height: number): Promise<string> =>
   page.evaluate(([w, h]) => `path("${window.geometry.capsulePath(w, h)}")`, [width, height] as const)
@@ -34,10 +34,10 @@ async function insert(page: Page, html: string, selector: string): Promise<void>
 }
 
 test.describe('auto entry', () => {
-  test('mounts [data-capsule] on import, clipped to the fractional border box', async ({ page }) => {
+  test('mounts [data-corners] on import, clipped to the fractional border box', async ({ page }) => {
     await open(page)
     await expect.poll(() => clipOf(page, '#pill')).toBe(await expectedClip(page, 216, 75))
-    expect(await page.getAttribute('#pill', 'data-capsule-state')).toBe('mounted')
+    expect(await page.getAttribute('#pill', 'data-corners-state')).toBe('mounted')
     expect(await pseudo(page, '#pill', 'clip-path')).toMatch(/^path\(/)
   })
 
@@ -51,7 +51,7 @@ test.describe('auto entry', () => {
     await page.goto('/test/fixtures/iife.html')
     await expect.poll(() => pseudo(page, '#pill', 'clip-path')).toMatch(/^path\(/)
     expect(
-      await page.evaluate(() => typeof (window as unknown as { OubbleCapsule: unknown }).OubbleCapsule),
+      await page.evaluate(() => typeof (window as unknown as { OubbleCorners: unknown }).OubbleCorners),
     ).toBe('object')
   })
 
@@ -73,15 +73,15 @@ test.describe('lifecycle', () => {
     await open(page)
     const markup = '<a id="link" class="pill" style="color: red; background-color: blue !important;">Go</a>'
     await page.evaluate((html) => document.body.insertAdjacentHTML('beforeend', html), markup)
-    await page.evaluate(() => window.capsule.mount(document.getElementById('link')!))
+    await page.evaluate(() => window.corners.mount(document.getElementById('link')!))
     await expect.poll(() => clipOf(page, '#link')).not.toBe('')
-    await page.evaluate(() => window.capsule.unmount(document.getElementById('link')!))
+    await page.evaluate(() => window.corners.unmount(document.getElementById('link')!))
     expect(await page.$eval('#link', (el) => el.outerHTML)).toBe(markup)
   })
 
   test('removes a style attribute it had to create', async ({ page }) => {
     await open(page)
-    await page.evaluate(() => window.capsule.unmount(document.getElementById('pill')!))
+    await page.evaluate(() => window.corners.unmount(document.getElementById('pill')!))
     expect(await page.$eval('#pill', (el) => el.getAttribute('style'))).toBe(null)
   })
 
@@ -89,8 +89,8 @@ test.describe('lifecycle', () => {
     await open(page)
     await page.evaluate(() => {
       const pill = document.getElementById('pill')!
-      window.capsule.unmount(pill)
-      window.capsule.mount(pill)
+      window.corners.unmount(pill)
+      window.corners.mount(pill)
     })
     await expect.poll(() => clipOf(page, '#pill')).not.toBe('')
     expect(await own(page, '#pill', 'background-color')).toBe(TRANSPARENT)
@@ -99,56 +99,56 @@ test.describe('lifecycle', () => {
 
   test('mounts inserted elements and releases removed ones', async ({ page }) => {
     await open(page)
-    await insert(page, '<button id="late" class="pill" data-capsule>Late</button>', '#late')
+    await insert(page, '<button id="late" class="pill" data-corners>Late</button>', '#late')
     const released = await page.evaluate(async () => {
       const late = document.getElementById('late')!
       late.remove()
       await new Promise(requestAnimationFrame)
-      return late.hasAttribute('data-capsule-state')
+      return late.hasAttribute('data-corners-state')
     })
     expect(released).toBe(false)
   })
 
-  test('removing data-capsule unmounts, adding it back mounts', async ({ page }) => {
+  test('removing data-corners unmounts, adding it back mounts', async ({ page }) => {
     await open(page)
-    await page.$eval('#pill', (el) => el.removeAttribute('data-capsule'))
-    await expect.poll(() => page.getAttribute('#pill', 'data-capsule-state')).toBe(null)
-    await page.$eval('#pill', (el) => el.setAttribute('data-capsule', ''))
-    await expect.poll(() => page.getAttribute('#pill', 'data-capsule-state')).toBe('mounted')
+    await page.$eval('#pill', (el) => el.removeAttribute('data-corners'))
+    await expect.poll(() => page.getAttribute('#pill', 'data-corners-state')).toBe(null)
+    await page.$eval('#pill', (el) => el.setAttribute('data-corners', ''))
+    await expect.poll(() => page.getAttribute('#pill', 'data-corners-state')).toBe('mounted')
   })
 
   test('leaves elements mounted by hand to their owner', async ({ page }) => {
     await open(page)
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', '<button id="manual" class="pill">Manual</button>')
-      window.capsule.mount(document.getElementById('manual')!)
+      window.corners.mount(document.getElementById('manual')!)
     })
     await page.$eval('#manual', (el) => el.classList.add('blue'))
     await page.evaluate(() => new Promise(requestAnimationFrame))
-    expect(await page.getAttribute('#manual', 'data-capsule-state')).toBe('mounted')
+    expect(await page.getAttribute('#manual', 'data-corners-state')).toBe('mounted')
   })
 })
 
 test.describe('paint', () => {
-  test('data-capsule-stroke paints an evenodd ring that follows the attribute', async ({ page }) => {
+  test('data-corners-stroke paints an evenodd ring that follows the attribute', async ({ page }) => {
     await open(page)
     await insert(
       page,
-      '<button id="ring" class="pill" data-capsule data-capsule-stroke="2">Ghost</button>',
+      '<button id="ring" class="pill" data-corners data-corners-stroke="2">Ghost</button>',
       '#ring',
     )
     const ring = await page.evaluate(() => `path(evenodd, "${window.geometry.capsuleRingPath(216, 75, 2)}")`)
     expect(await clipOf(page, '#ring')).toBe(ring)
-    await page.$eval('#ring', (el) => el.setAttribute('data-capsule-stroke', '4'))
+    await page.$eval('#ring', (el) => el.setAttribute('data-corners-stroke', '4'))
     const thicker = await page.evaluate(
       () => `path(evenodd, "${window.geometry.capsuleRingPath(216, 75, 4)}")`,
     )
     await expect.poll(() => clipOf(page, '#ring')).toBe(thicker)
   })
 
-  test('--capsule-fill overrides the captured background', async ({ page }) => {
+  test('--corners-fill overrides the captured background', async ({ page }) => {
     await open(page)
-    await page.$eval('#pill', (el) => el.style.setProperty('--capsule-fill', 'rgb(0, 0, 0)'))
+    await page.$eval('#pill', (el) => el.style.setProperty('--corners-fill', 'rgb(0, 0, 0)'))
     expect(await pseudo(page, '#pill', 'background-color')).toBe('rgb(0, 0, 0)')
   })
 
@@ -165,10 +165,10 @@ test.describe('paint', () => {
       document.body.append(host)
       const root = host.attachShadow({ mode: 'open' })
       root.innerHTML =
-        '<style>button{width:120px;height:44px;border:0;background:rgb(10,132,255)}</style><button data-capsule>In shadow</button>'
-      window.capsule.observe(root)
+        '<style>button{width:120px;height:44px;border:0;background:rgb(10,132,255)}</style><button data-corners>In shadow</button>'
+      window.corners.observe(root)
       const button = root.querySelector('button')!
-      while (!button.style.getPropertyValue('--_capsule-clip')) await new Promise(requestAnimationFrame)
+      while (!button.style.getPropertyValue('--_corners-clip')) await new Promise(requestAnimationFrame)
       return getComputedStyle(button, '::before').backgroundColor
     })
     expect(background).toBe('rgb(10, 132, 255)')
@@ -182,7 +182,7 @@ test.describe('diagnostics', () => {
       if (message.type() === 'warning') warnings.push(message.text())
     })
     await open(page)
-    await insert(page, '<button id="shadow" class="pill shadowed" data-capsule>Shadow</button>', '#shadow')
+    await insert(page, '<button id="shadow" class="pill shadowed" data-corners>Shadow</button>', '#shadow')
     await page.$eval('#shadow', (el) => el.classList.add('blue'))
     await page.evaluate(() => new Promise(requestAnimationFrame))
     expect(warnings.filter((text) => text.includes('OUB001'))).toHaveLength(1)
@@ -192,16 +192,16 @@ test.describe('diagnostics', () => {
 test.describe('continuous corners', () => {
   test('a partial border-radius becomes a smoothed corner of that radius', async ({ page }) => {
     await open(page)
-    await insert(page, '<div id="card" class="pill" data-capsule style="border-radius: 12px"></div>', '#card')
+    await insert(page, '<div id="card" class="pill" data-corners style="border-radius: 12px"></div>', '#card')
     const expected = await page.evaluate(() => `path("${window.geometry.roundedPath(216, 75, 12)}")`)
     expect(await clipOf(page, '#card')).toBe(expected)
   })
 
-  test('--capsule-smoothing sets how much of the arc is smoothed', async ({ page }) => {
+  test('--corners-smoothing sets how much of the arc is smoothed', async ({ page }) => {
     await open(page)
     await insert(
       page,
-      '<div id="flat" class="pill" data-capsule style="border-radius: 12px; --capsule-smoothing: 0"></div>',
+      '<div id="flat" class="pill" data-corners style="border-radius: 12px; --corners-smoothing: 0"></div>',
       '#flat',
     )
     const expected = await page.evaluate(() => `path("${window.geometry.roundedPath(216, 75, 12, 0)}")`)
@@ -212,7 +212,7 @@ test.describe('continuous corners', () => {
     await open(page)
     await insert(
       page,
-      '<div id="full" class="pill" data-capsule style="border-radius: 999px"></div>',
+      '<div id="full" class="pill" data-corners style="border-radius: 999px"></div>',
       '#full',
     )
     expect(await clipOf(page, '#full')).toBe(await expectedClip(page, 216, 75))

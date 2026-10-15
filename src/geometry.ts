@@ -117,7 +117,7 @@ export function capsulePath(width: number, height: number, x = 0, y = 0): string
 export function capsuleRingPath(width: number, height: number, thickness: number): string {
   assertExtent('thickness', thickness)
   if (2 * thickness >= Math.min(width, height)) {
-    throw new RangeError(`capsule: thickness ${thickness} leaves no hole inside a ${width}×${height} capsule`)
+    throw new RangeError(`corners: thickness ${thickness} leaves no hole inside a ${width}×${height} capsule`)
   }
   return `${capsulePath(width, height)} ${capsulePath(width - 2 * thickness, height - 2 * thickness, thickness, thickness)}`
 }
@@ -201,7 +201,7 @@ export function roundedRingPath(
 ): string {
   assertExtent('thickness', thickness)
   if (2 * thickness >= Math.min(width, height)) {
-    throw new RangeError(`capsule: thickness ${thickness} leaves no hole inside a ${width}×${height} box`)
+    throw new RangeError(`corners: thickness ${thickness} leaves no hole inside a ${width}×${height} box`)
   }
   const [tl, tr, br, bl]: Radii = typeof radius === 'number' ? [radius, radius, radius, radius] : radius
   const inset = (r: number): number => Math.max(0, r - thickness)
@@ -245,6 +245,6 @@ function round(value: number): number {
 
 function assertExtent(name: string, value: number): void {
   if (!(Number.isFinite(value) && value > 0)) {
-    throw new RangeError(`capsule: ${name} must be a positive finite number, received ${value}`)
+    throw new RangeError(`corners: ${name} must be a positive finite number, received ${value}`)
   }
 }
