@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Capsule lab</title>
+    <meta name="description" content="iOS-calibrated capsules for HTML: deviation from border-radius, gallery and edge cases." />
+    <link rel="stylesheet" href="lab.css" />
+    <script type="module" src="lab.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <span class="label">@oubble/capsule · lab</span>
+        <h1>iOS capsules for HTML<small>v1.0.0</small></h1>
+        <p>
+          Every button below is a plain HTML element with a <code>data-capsule</code> attribute. The outline is
+          fitted to a native iOS capsule; below, exactly where it departs from <code>border-radius</code>.
+        </p>
+      </header>
+
+      <section>
+        <span class="label">real size, then the top-left corner magnified · filled: where capsule differs from border-radius</span>
+        <div class="deviation" id="deviation"></div>
+        <p class="label"><span class="legend-radius">- - border-radius: 50%</span> &nbsp; ━ capsule</p>
+      </section>
+
+      <section id="gallery">
+        <span class="label">gallery</span>
+        <div class="toolbar">
+          <label class="label"><input type="checkbox" id="shadows" /> drop-shadow</label>
+        </div>
+        <div class="row">
+          <button type="button" data-capsule class="cream">Ok</button>
+          <button type="button" data-capsule class="graphite">Confirm booking</button>
+          <button type="button" data-capsule class="large cream">Continue to payment</button>
+          <button type="button" data-capsule class="multiline graphite">
+            A button with far more text than any design anticipated, wrapping across several lines
+          </button>
+          <button type="button" data-capsule data-capsule-stroke="1" class="ring-cream">Stroke 1px</button>
+          <button type="button" data-capsule data-capsule-stroke="4" class="large ring-blend">Blended stroke</button>
+          <button type="button" data-capsule class="cream circle">72×72</button>
+        </div>
+      </section>
+
+      <section>
+        <span class="label">edge cases</span>
+        <div class="row">
+          <div class="case">
+            <span class="label">hover · --capsule-fill</span>
+            <button type="button" data-capsule class="cream hover-fill">Hover me</button>
+          </div>
+          <div class="case">
+            <span class="label">anchor · display: inline</span>
+            <a data-capsule class="cream" href="#gallery">I am a link</a>
+          </div>
+          <div class="case">
+            <span class="label">resize · drag the corner</span>
+            <div data-capsule class="resizable cream">Resize</div>
+          </div>
+          <div class="case">
+            <span class="label">fractional · 216.5 × 74.5</span>
+            <button type="button" data-capsule class="fractional cream">Fractional</button>
+          </div>
+          <div class="case">
+            <span class="label">inserted after 1.5 s</span>
+            <span id="late"></span>
+          </div>
+          <div class="case">
+            <span class="label">mount / unmount</span>
+            <button type="button" data-capsule id="target" class="cream">Target</button>
+            <button type="button" class="chip" id="toggle">unmount</button>
+          </div>
+          <div class="case">
+            <span class="label">writing-mode: vertical-rl</span>
+            <button type="button" data-capsule class="vertical cream">Vertical</button>
+          </div>
+          <div class="case">
+            <span class="label">misuse · box-shadow → OUB001</span>
+            <button type="button" data-capsule class="wrong-shadow">box-shadow</button>
+          </div>
+          <div class="case">
+            <span class="label">misuse · border → OUB002</span>
+            <button type="button" data-capsule class="wrong-border">border</button>
+          </div>
+        </div>
+        <pre id="diagnostics"></pre>
+      </section>
+      <footer>
+        <img src="crest.svg" alt="The Oubble mark's construction, with the dot outside the bubble" />
+        <span class="label">Oubble · outside the bubble</span>
+        <span class="label"><a href="https://github.com/oubble/capsule">source</a> · <a href="https://www.npmjs.com/package/@oubble/capsule">npm</a> · <a href="llms.txt">llms.txt</a></span>
+      </footer>
+    </main>
+
+  </body>
+</html>

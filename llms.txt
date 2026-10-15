@@ -1,0 +1,73 @@
+# @oubble/capsule
+
+> iOS-calibrated capsule (pill) outlines for HTML elements. Adds the native iOS
+> continuous-corner curve to any element through `clip-path`, without wrappers,
+> SVG or dependencies. ESM, 2.3 kB, SSR-safe.
+
+Use Capsule when a design asks for fully rounded buttons, chips or tags that
+should look like iOS. Do not use it for partial radii (cards, inputs): there,
+use `border-radius` with `corner-shape: squircle`.
+
+## Install and enable
+
+```sh
+npm i @oubble/capsule
+```
+
+```js
+import '@oubble/capsule' // once, in the app entry. Mounts every [data-capsule] element, now and later.
+```
+
+```html
+<button data-capsule class="cta">Continue</button>
+```
+
+CDN, no build step: `<script src="https://unpkg.com/@oubble/capsule"></script>`
+
+## Rules
+
+- The element's own `background` becomes the capsule fill. Keep styling it
+  with normal CSS.
+- Change fill on hover or other states with `--capsule-fill`, not `background`:
+  `.cta:hover { --capsule-fill: #0a84ff }`. Class changes are picked up
+  automatically; `:hover` and inline style changes are not.
+- Shadows: `filter: drop-shadow(...)`. Never `box-shadow` (renders a
+  rectangle, warning OUB001).
+- Outlines: `data-capsule-stroke="2"` plus `--capsule-stroke: <color or gradient>`.
+  Never `border` (renders a rectangle, warning OUB002).
+- `::before` is reserved on mounted elements (warning OUB003). Put icons in
+  children.
+- Optional no-JS fallback: `[data-capsule] { border-radius: calc(infinity * 1px) }`.
+- Transforms, filters, transitions, focus styles and events work as usual.
+
+## Frameworks
+
+The attribute is the whole API: render `data-capsule` in React, Vue, Svelte,
+Solid or Astro and import `@oubble/capsule` once. For explicit lifecycles use the
+side-effect-free entry:
+
+```ts
+import { mount } from '@oubble/capsule/core'
+useLayoutEffect(() => mount(ref.current!), []) // returns its cleanup
+```
+
+Web components: call `observe(shadowRoot)` from `@oubble/capsule/core`.
+
+## API
+
+- `@oubble/capsule`: auto entry, re-exports everything below.
+- `@oubble/capsule/core`: `mount(el): () => void`, `unmount(el)`,
+  `observe(root?, { selector? }): () => void`.
+- `@oubble/capsule/geometry` (no DOM): `capsulePath(width, height, x?, y?)` and
+  `capsuleRingPath(width, height, thickness)` return SVG path data for
+  `clip-path: path()`, `<path d>`, `Path2D` or canvas.
+
+## Constraints
+
+- Strict Content Security Policy is supported (styles go through the CSSOM).
+- Browsers without `clip-path: path()` keep the element's own CSS.
+
+## Links
+
+- Source and full documentation: https://github.com/oubble/capsule
+- Live lab: https://lab.oubble.com/capsule/

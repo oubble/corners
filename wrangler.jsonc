@@ -1,0 +1,10 @@
+// The lab for this package, served at lab.oubble.com/capsule. Each project in the
+// lab is its own Worker on its own path, so deploying one never touches another.
+{
+  "name": "lab-capsule",
+  "compatibility_date": "2026-10-15",
+  "assets": {
+    "directory": "./site"
+  },
+  "routes": [{ "pattern": "lab.oubble.com/capsule*", "zone_name": "oubble.com" }]
+}

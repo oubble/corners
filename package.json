@@ -1,0 +1,99 @@
+{
+  "name": "@oubble/capsule",
+  "version": "1.0.0",
+  "description": "The iOS capsule on your own HTML elements: continuous-corner pills calibrated against a native iOS button to under half a pixel. No SVG, no wrappers, zero dependencies.",
+  "keywords": [
+    "capsule",
+    "pill",
+    "button",
+    "squircle",
+    "continuous-corners",
+    "corner-smoothing",
+    "superellipse",
+    "ios",
+    "clip-path",
+    "border-radius",
+    "geometry",
+    "css"
+  ],
+  "homepage": "https://github.com/oubble/capsule#readme",
+  "bugs": "https://github.com/oubble/capsule/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oubble/capsule.git"
+  },
+  "license": "MIT",
+  "author": "Oubble (https://oubble.com)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "default": "./dist/core.js"
+    },
+    "./geometry": {
+      "types": "./dist/geometry.d.ts",
+      "default": "./dist/geometry.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/capsule.iife.js",
+  "jsdelivr": "./dist/capsule.iife.js",
+  "files": [
+    "dist",
+    "llms.txt"
+  ],
+  "sideEffects": [
+    "./dist/index.js",
+    "./dist/capsule.iife.js"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "pnpm build && node scripts/site.mjs && node scripts/serve.mjs site",
+    "site": "pnpm build && node scripts/site.mjs",
+    "figures": "pnpm build && node scripts/figures.mjs",
+    "check": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "lint:package": "publint --strict && attw --pack . --profile esm-only",
+    "size": "size-limit",
+    "verify": "pnpm check && pnpm typecheck && pnpm test && pnpm build && pnpm lint:package && pnpm size && pnpm test:browser",
+    "prepublishOnly": "pnpm verify"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@biomejs/biome": "^2.5.15",
+    "@playwright/test": "^1.64.1",
+    "@size-limit/preset-small-lib": "^14.2.0",
+    "publint": "^0.3.25",
+    "size-limit": "^14.2.0",
+    "tsdown": "^0.23.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.4"
+  },
+  "size-limit": [
+    {
+      "name": "@oubble/capsule (auto)",
+      "path": "dist/index.js",
+      "limit": "2.4 kB"
+    },
+    {
+      "name": "@oubble/capsule/geometry",
+      "path": "dist/geometry.js",
+      "import": "{ capsulePath }",
+      "limit": "500 B"
+    }
+  ],
+  "packageManager": "pnpm@11.9.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

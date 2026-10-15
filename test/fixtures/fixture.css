@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  padding: 40px;
+  background: #fff;
+  font:
+    16px system-ui,
+    sans-serif;
+}
+
+.pill {
+  width: 216px;
+  height: 75px;
+  border: 0;
+  background: rgb(228, 28, 85);
+  color: #fff;
+}
+
+.shadowed {
+  box-shadow: 0 4px 8px rgb(0 0 0 / 0.5);
+}
+
+.blue {
+  background: rgb(10, 132, 255);
+}
+
+.hovered {
+  --capsule-fill: rgb(0, 0, 0);
+}

@@ -1,0 +1,25 @@
+name: Bug report
+description: The capsule renders wrong, or the runtime misbehaves.
+labels: [bug]
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Minimal HTML and CSS, or a link to a CodePen / StackBlitz.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result
+      description: A screenshot of both helps most.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: @oubble/capsule 1.0.0 · Safari 18.2 · macOS 15
+    validations:
+      required: true

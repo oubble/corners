@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 682 428" width="682" height="428" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" role="img">
+<title>Capsule geometry: top-left quadrant against border-radius</title>
+<style>
+  :root { --ink: #1f2328; --muted: #8c959f; --grid: #eaeef2; --accent: #8f6f2e }
+  @media (prefers-color-scheme: dark) { :root { --ink: #e6edf3; --muted: #7d8590; --grid: #21262d; --accent: #d3b885 } }
+  text { fill: var(--muted) }
+  .strong { fill: var(--ink) }
+  .grid { stroke: var(--grid); stroke-width: 1 }
+  .radius { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 5 }
+  .curve { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round }
+  .leg { stroke: var(--muted); stroke-width: 1 }
+  .pt { fill: var(--accent) }
+  .center { fill: var(--muted) }
+  .handle { fill: none; stroke: var(--accent); stroke-width: 1.5 }
+  .dim { stroke: var(--muted); stroke-width: 1; fill: none }
+</style>
+<line class="grid" x1="56" y1="64" x2="56" y2="344"/><line class="grid" x1="84" y1="64" x2="84" y2="344"/><line class="grid" x1="112" y1="64" x2="112" y2="344"/><line class="grid" x1="140" y1="64" x2="140" y2="344"/><line class="grid" x1="168" y1="64" x2="168" y2="344"/><line class="grid" x1="196" y1="64" x2="196" y2="344"/><line class="grid" x1="224" y1="64" x2="224" y2="344"/><line class="grid" x1="252" y1="64" x2="252" y2="344"/><line class="grid" x1="280" y1="64" x2="280" y2="344"/><line class="grid" x1="308" y1="64" x2="308" y2="344"/><line class="grid" x1="336" y1="64" x2="336" y2="344"/><line class="grid" x1="364" y1="64" x2="364" y2="344"/><line class="grid" x1="392" y1="64" x2="392" y2="344"/><line class="grid" x1="420" y1="64" x2="420" y2="344"/><line class="grid" x1="448" y1="64" x2="448" y2="344"/><line class="grid" x1="476" y1="64" x2="476" y2="344"/><line class="grid" x1="504" y1="64" x2="504" y2="344"/><line class="grid" x1="532" y1="64" x2="532" y2="344"/><line class="grid" x1="560" y1="64" x2="560" y2="344"/><line class="grid" x1="588" y1="64" x2="588" y2="344"/><line class="grid" x1="616" y1="64" x2="616" y2="344"/><line class="grid" x1="644" y1="64" x2="644" y2="344"/>
+<line class="grid" x1="56" y1="64" x2="644" y2="64"/><line class="grid" x1="56" y1="92" x2="644" y2="92"/><line class="grid" x1="56" y1="120" x2="644" y2="120"/><line class="grid" x1="56" y1="148" x2="644" y2="148"/><line class="grid" x1="56" y1="176" x2="644" y2="176"/><line class="grid" x1="56" y1="204" x2="644" y2="204"/><line class="grid" x1="56" y1="232" x2="644" y2="232"/><line class="grid" x1="56" y1="260" x2="644" y2="260"/><line class="grid" x1="56" y1="288" x2="644" y2="288"/><line class="grid" x1="56" y1="316" x2="644" y2="316"/><line class="grid" x1="56" y1="344" x2="644" y2="344"/>
+<path class="radius" d="M 658 64 L 336 64 A 280 280 0 0 0 56 344"/>
+<line class="leg" x1="452.2" y1="64" x2="379.68" y2="64"/>
+<line class="leg" x1="178.36" y1="112.44" x2="250.32" y2="63.72"/>
+<line class="leg" x1="336" y1="344" x2="178.36" y2="112.44" stroke-dasharray="3 4"/>
+<line class="leg" x1="336" y1="344" x2="336" y2="64" stroke-dasharray="3 4"/>
+<path class="dim" d="M 336 282.4 A 61.6 61.6 0 0 0 301.33 293.08"/>
+<path class="curve" d="M 658 64 L 452.2 64 C 379.68 64 250.32 63.72 178.36 112.44 C 101.92 164.8 56 251.32 56 344"/>
+<rect class="handle" x="375.68" y="60" width="8" height="8"/><rect class="handle" x="246.32" y="59.72" width="8" height="8"/><circle class="pt" cx="452.2" cy="64" r="4.5"/><circle class="pt" cx="178.36" cy="112.44" r="4.5"/><circle class="pt" cx="56" cy="344" r="4.5"/><circle class="center" cx="336" cy="344" r="4.5"/>
+<text x="452.2" y="50" text-anchor="middle">E</text>
+<text x="379.68" y="50" text-anchor="middle">P₁</text>
+<text x="250.32" y="49.72" text-anchor="middle">P₂</text>
+<text x="164.36" y="116.44" text-anchor="end">J</text>
+<text x="70" y="348" text-anchor="start">(0, R)</text>
+<text x="348" y="348" text-anchor="start">C</text>
+<text x="319.2" y="260" text-anchor="end">φ = 34.24°</text>
+<path class="dim" d="M 336 30 H 452.2 M 336 26 v 8 M 452.2 26 v 8"/>
+<text x="394.1" y="22" text-anchor="middle">λ·R</text>
+<path class="dim" d="M 370 64 V 344"/>
+<text x="378" y="208" text-anchor="start">R</text>
+<text class="strong" x="56" y="388">━ capsule</text>
+<text x="166" y="388">- - border-radius: 50%</text>
+<text x="376" y="388">□ control points of the transition</text>
+<text x="56" y="414">top-left quadrant of the unit capsule, plotted from capsulePath()</text>
+</svg>
