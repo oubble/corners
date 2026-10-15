@@ -3,33 +3,61 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Capsule lab</title>
+    <title>Capsule · Oubble Lab</title>
     <meta name="description" content="iOS-calibrated capsules for HTML: deviation from border-radius, gallery and edge cases." />
+    <meta name="theme-color" content="#09090b" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/quadrant-text-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="lab.css" />
     <script type="module" src="lab.js"></script>
   </head>
   <body>
+    <header class="bar">
+      <a class="mark" href="https://oubble.com">
+        <img src="favicon.png" width="36" height="36" alt="Oubble" />
+      </a>
+      <nav>
+        <a class="nav-button" href="https://www.npmjs.com/package/@oubble/capsule">npm</a>
+        <a class="nav-button nav-button--primary" href="https://github.com/oubble/capsule">GitHub</a>
+      </nav>
+    </header>
+
     <main>
-      <header>
-        <span class="label">@oubble/capsule · lab</span>
-        <h1>iOS capsules for HTML<small>v1.0.0</small></h1>
-        <p>
-          Every button below is a plain HTML element with a <code>data-capsule</code> attribute. The outline is
-          fitted to a native iOS capsule; below, exactly where it departs from <code>border-radius</code>.
+      <section class="intro">
+        <p class="eyebrow">@oubble/capsule <span>v1.0.0</span></p>
+        <h1>The iOS capsule, <em>for HTML</em></h1>
+        <p class="lede">
+          Every button on this page is a plain element with a <code>data-capsule</code> attribute. Its outline is fitted
+          to the native iOS curve, without wrappers, SVG or dependencies.
         </p>
-      </header>
+        <div class="install">
+          <button type="button" data-capsule class="install-pill" id="install">
+            <span>npm i @oubble/capsule</span><span class="install-state" aria-live="polite">Copy</span>
+          </button>
+          <a class="agents" href="llms.txt">llms.txt for AI agents</a>
+        </div>
+      </section>
 
       <section>
-        <span class="label">real size, then the top-left corner magnified · filled: where capsule differs from border-radius</span>
+        <div class="section-head">
+          <span class="index">01</span>
+          <h2>Where it departs from <em>border-radius</em></h2>
+          <p>Real size on top. Below, the top-left corner magnified, with the gap between the two filled in gold.</p>
+        </div>
         <div class="deviation" id="deviation"></div>
-        <p class="label"><span class="legend-radius">- - border-radius: 50%</span> &nbsp; ━ capsule</p>
+        <p class="legend"><span class="legend-radius">border-radius: 50%</span><span class="legend-capsule">capsule</span></p>
       </section>
 
       <section id="gallery">
-        <span class="label">gallery</span>
-        <div class="toolbar">
-          <label class="label"><input type="checkbox" id="shadows" /> drop-shadow</label>
+        <div class="section-head">
+          <span class="index">02</span>
+          <h2>Any size, <em>any content</em></h2>
+          <p>Short labels, long ones that wrap, strokes and gradients. The fill is the element's own background.</p>
         </div>
+        <label class="switch"><input type="checkbox" id="shadows" /><span></span>drop-shadow</label>
         <div class="row">
           <button type="button" data-capsule class="cream">Ok</button>
           <button type="button" data-capsule class="graphite">Confirm booking</button>
@@ -44,54 +72,65 @@
       </section>
 
       <section>
-        <span class="label">edge cases</span>
-        <div class="row">
+        <div class="section-head">
+          <span class="index">03</span>
+          <h2>Built for the <em>edges</em></h2>
+          <p>Live resizing, late insertion, vertical text and the mistakes it warns you about.</p>
+        </div>
+        <div class="cases">
           <div class="case">
-            <span class="label">hover · --capsule-fill</span>
+            <span class="label">Hover with --capsule-fill</span>
             <button type="button" data-capsule class="cream hover-fill">Hover me</button>
           </div>
           <div class="case">
-            <span class="label">anchor · display: inline</span>
+            <span class="label">Anchor, display: inline</span>
             <a data-capsule class="cream" href="#gallery">I am a link</a>
           </div>
           <div class="case">
-            <span class="label">resize · drag the corner</span>
+            <span class="label">Resize, drag the corner</span>
             <div data-capsule class="resizable cream">Resize</div>
           </div>
           <div class="case">
-            <span class="label">fractional · 216.5 × 74.5</span>
+            <span class="label">Fractional, 216.5 × 74.5</span>
             <button type="button" data-capsule class="fractional cream">Fractional</button>
           </div>
           <div class="case">
-            <span class="label">inserted after 1.5 s</span>
+            <span class="label">Inserted after 1.5 s</span>
             <span id="late"></span>
           </div>
           <div class="case">
-            <span class="label">mount / unmount</span>
-            <button type="button" data-capsule id="target" class="cream">Target</button>
-            <button type="button" class="chip" id="toggle">unmount</button>
+            <span class="label">Mount and unmount</span>
+            <div class="pair">
+              <button type="button" data-capsule id="target" class="cream">Target</button>
+              <button type="button" class="nav-button" id="toggle">Unmount</button>
+            </div>
           </div>
           <div class="case">
             <span class="label">writing-mode: vertical-rl</span>
             <button type="button" data-capsule class="vertical cream">Vertical</button>
           </div>
           <div class="case">
-            <span class="label">misuse · box-shadow → OUB001</span>
+            <span class="label">Misuse: box-shadow, warns OUB001</span>
             <button type="button" data-capsule class="wrong-shadow">box-shadow</button>
           </div>
           <div class="case">
-            <span class="label">misuse · border → OUB002</span>
+            <span class="label">Misuse: border, warns OUB002</span>
             <button type="button" data-capsule class="wrong-border">border</button>
           </div>
         </div>
         <pre id="diagnostics"></pre>
       </section>
-      <footer>
-        <img src="crest.svg" alt="The Oubble mark's construction, with the dot outside the bubble" />
-        <span class="label">Oubble · outside the bubble</span>
-        <span class="label"><a href="https://github.com/oubble/capsule">source</a> · <a href="https://www.npmjs.com/package/@oubble/capsule">npm</a> · <a href="llms.txt">llms.txt</a></span>
-      </footer>
     </main>
 
+    <footer class="final-cta">
+      <div class="final-cta__field" id="field" aria-hidden="true"></div>
+      <div class="final-cta__inner">
+        <div class="final-cta__content" id="closing">
+          <h2>Great <span class="final-cta__pixel">things</span> happen<br />outside the <span class="final-cta__pixel">bubble</span></h2>
+          <p>Good design has to run.</p>
+          <div><a class="final-cta__button" href="https://oubble.com">Get in touch</a></div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

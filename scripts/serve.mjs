@@ -1,6 +1,7 @@
 // Static server. `node scripts/serve.mjs` serves the repository for the browser
 // tests (`?csp` adds a strict policy); `node scripts/serve.mjs site` serves the
-// assembled lab exactly as production does, headers and redirect included.
+// assembled lab exactly as production does, headers and redirect included,
+// with the shared fonts fetched from production when they are not on disk.
 
 import { readFile } from 'node:fs/promises'
 import { createServer } from 'node:http'
@@ -19,6 +20,7 @@ const types = {
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
   '.txt': 'text/plain; charset=utf-8',
+  '.woff2': 'font/woff2',
 }
 const STRICT_CSP = "default-src 'self'; script-src 'self'; style-src 'self'"
 
@@ -61,6 +63,16 @@ createServer(async (request, response) => {
     if (url.searchParams.has('csp')) headers['content-security-policy'] = STRICT_CSP
     response.writeHead(200, headers).end(body)
   } catch {
+    // The lab's fonts live in their own Worker (lab.oubble.com/fonts).
+    if (site && url.pathname.startsWith('/fonts/')) {
+      const remote = await fetch(`https://lab.oubble.com${url.pathname}`)
+      if (remote.ok) {
+        response
+          .writeHead(200, { ...shared, 'content-type': types['.woff2'] })
+          .end(Buffer.from(await remote.arrayBuffer()))
+        return
+      }
+    }
     response.writeHead(404).end()
   }
 }).listen(port, () => console.log(`http://localhost:${port}${site ? '/capsule/' : '/'}`))
