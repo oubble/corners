@@ -188,3 +188,33 @@ test.describe('diagnostics', () => {
     expect(warnings.filter((text) => text.includes('OUB001'))).toHaveLength(1)
   })
 })
+
+test.describe('continuous corners', () => {
+  test('a partial border-radius becomes a smoothed corner of that radius', async ({ page }) => {
+    await open(page)
+    await insert(page, '<div id="card" class="pill" data-capsule style="border-radius: 12px"></div>', '#card')
+    const expected = await page.evaluate(() => `path("${window.geometry.roundedPath(216, 75, 12)}")`)
+    expect(await clipOf(page, '#card')).toBe(expected)
+  })
+
+  test('--capsule-smoothing sets how much of the arc is smoothed', async ({ page }) => {
+    await open(page)
+    await insert(
+      page,
+      '<div id="flat" class="pill" data-capsule style="border-radius: 12px; --capsule-smoothing: 0"></div>',
+      '#flat',
+    )
+    const expected = await page.evaluate(() => `path("${window.geometry.roundedPath(216, 75, 12, 0)}")`)
+    expect(await clipOf(page, '#flat')).toBe(expected)
+  })
+
+  test('a full border-radius keeps the calibrated capsule', async ({ page }) => {
+    await open(page)
+    await insert(
+      page,
+      '<div id="full" class="pill" data-capsule style="border-radius: 999px"></div>',
+      '#full',
+    )
+    expect(await clipOf(page, '#full')).toBe(await expectedClip(page, 216, 75))
+  })
+})

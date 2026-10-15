@@ -1,7 +1,7 @@
 {
   "name": "@oubble/capsule",
   "version": "1.0.0",
-  "description": "The iOS capsule on your own HTML elements: continuous-corner pills calibrated against a native iOS button to under half a pixel. No SVG, no wrappers, zero dependencies.",
+  "description": "iOS shapes on your own HTML elements: capsules calibrated against a native iOS button to under half a pixel, and continuous corners for every other radius. No SVG, no wrappers, zero dependencies.",
   "keywords": [
     "capsule",
     "pill",
@@ -83,7 +83,7 @@
     {
       "name": "@oubble/capsule (auto)",
       "path": "dist/index.js",
-      "limit": "2.4 kB"
+      "limit": "3.2 kB"
     },
     {
       "name": "@oubble/capsule/geometry",

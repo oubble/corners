@@ -1,5 +1,8 @@
 /**
- * DOM runtime: paints capsules onto existing elements without wrapping them.
+ * DOM runtime: paints capsules and continuous corners onto existing elements
+ * without wrapping them. The element's own border-radius picks the shape: none
+ * or a full one gives the calibrated capsule, anything smaller a smoothed
+ * corner of that radius.
  *
  *   host element                    the author's <button>, untouched in the tree
  *   ├─ background                   read once, then made transparent
@@ -11,9 +14,23 @@
  * fractional border box, so the clip tracks layout without polling.
  */
 
-import { capsulePath, capsuleRingPath } from './geometry'
+import {
+  capsulePath,
+  capsuleRingPath,
+  IOS_SMOOTHING,
+  type Radii,
+  roundedPath,
+  roundedRingPath,
+} from './geometry'
 
-export { capsulePath, capsuleRingPath } from './geometry'
+export {
+  capsulePath,
+  capsuleRingPath,
+  IOS_SMOOTHING,
+  type Radii,
+  roundedPath,
+  roundedRingPath,
+} from './geometry'
 
 /** Removes the capsule and restores the element to its previous state. */
 export type Unmount = () => void
@@ -26,10 +43,15 @@ export interface ObserveOptions {
 type Root = Document | ShadowRoot
 type Saved = readonly (readonly [property: string, value: string, priority: string])[]
 
+/** An author radius: pixels, or a percentage of the box resolved at fit time. */
+type Radius = readonly [value: number, percent: boolean]
+
 interface Mount {
   readonly hadStyleAttribute: boolean
   readonly saved: Saved
   readonly stroke: number
+  readonly radii: readonly Radius[]
+  readonly smoothing: number
   readonly vertical: boolean
   width: number
   height: number
@@ -82,10 +104,15 @@ export function mount(host: HTMLElement): Unmount {
   const paint =
     requested > 0 ? 'var(--capsule-stroke, currentColor)' : `var(--capsule-fill, ${style.background})`
 
+  // The computed style is live: read the author's corners before override() zeroes them.
+  const radii = CORNERS.map((property) => parseRadius(style.getPropertyValue(property)))
+  const smoothing = parseSmoothing(style.getPropertyValue('--capsule-smoothing'))
   const state: Mount = {
     hadStyleAttribute: existing?.hadStyleAttribute ?? host.hasAttribute('style'),
     saved: override(host, style),
     stroke: SUPPORTS_EVENODD ? requested : 0,
+    radii,
+    smoothing,
     vertical: style.writingMode.startsWith('vertical'),
     width: existing?.width ?? 0,
     height: existing?.height ?? 0,
@@ -195,13 +222,47 @@ function onResize(entries: ResizeObserverEntry[]): void {
   }
 }
 
-function refit(host: HTMLElement, { width, height, stroke }: Mount): void {
+function refit(host: HTMLElement, { width, height, stroke, radii, smoothing }: Mount): void {
   if (!(width > 0 && height > 0)) return
-  const clip =
-    stroke > 0 && 2 * stroke < Math.min(width, height)
+  const ring = stroke > 0 && 2 * stroke < Math.min(width, height)
+  const budget = Math.min(width, height) / 2
+  const resolved = radii.map(([value, percent]) =>
+    percent ? (value / 100) * Math.max(width, height) : value,
+  )
+  // No radius, or every corner at least half the short side: the calibrated
+  // capsule. Anything smaller is a continuous corner of that radius.
+  const capsule = resolved.every((r) => r === 0) || resolved.every((r) => r >= budget)
+  let clip: string
+  if (capsule) {
+    clip = ring
       ? `path(evenodd, "${capsuleRingPath(width, height, stroke)}")`
       : `path("${capsulePath(width, height)}")`
+  } else {
+    const r: Radii = [resolved[0] ?? 0, resolved[1] ?? 0, resolved[2] ?? 0, resolved[3] ?? 0]
+    clip = ring
+      ? `path(evenodd, "${roundedRingPath(width, height, r, stroke, smoothing)}")`
+      : `path("${roundedPath(width, height, r, smoothing)}")`
+  }
   host.style.setProperty(CLIP, clip)
+}
+
+const CORNERS = [
+  'border-top-left-radius',
+  'border-top-right-radius',
+  'border-bottom-right-radius',
+  'border-bottom-left-radius',
+] as const
+
+/** First component of a computed corner radius ("12px", "50%", "8px 4px"). */
+function parseRadius(value: string): Radius {
+  const first = value.trim().split(/\s+/)[0] ?? ''
+  const number = Number.parseFloat(first)
+  return Number.isFinite(number) && number > 0 ? [number, first.endsWith('%')] : [0, false]
+}
+
+function parseSmoothing(value: string): number {
+  const number = Number.parseFloat(value)
+  return Number.isFinite(number) ? Math.min(Math.max(number, 0), 1) : IOS_SMOOTHING
 }
 
 /**

@@ -1,4 +1,4 @@
-import { capsulePath, mount, observe, unmount } from './dist/core.js'
+import { capsulePath, mount, observe, roundedPath, unmount } from './dist/core.js'
 
 // Mirror diagnostics on the page, one row per warning: code, message, docs.
 const panel = document.getElementById('diagnostics')
@@ -88,39 +88,73 @@ function radiusPath(width, height) {
   return `M ${width - r} 0 H ${r} C ${r - k} 0 0 ${r - k} 0 ${r} C 0 ${r + k} ${r - k} ${height} ${r} ${height} H ${width - r} C ${width - r + k} ${height} ${width} ${r + k} ${width} ${r} C ${width} ${r - k} ${width - r + k} 0 ${width - r} 0 Z`
 }
 
-const deviation = document.getElementById('deviation')
-for (const [label, w, h] of SPECIMENS) {
-  const r = h / 2
-  const [x0, x1, y0, y1] = [0.45 * r, 1.5 * r, -0.012 * r, 0.12 * r]
+/**
+ * A real-size element above, one corner magnified below: the window spans the
+ * corner from 0.45R to 1.7R along the edge and is stretched in depth so a
+ * sub-pixel gap reads. Gold is the area between border-radius and the shape.
+ */
+function specimen(parent, element, r, plain, shape, caption) {
+  const [x0, x1, y0, y1] = [0.45 * r, 1.7 * r, -0.012 * r, 0.12 * r]
   const sx = WINDOW[0] / (x1 - x0)
   const sy = WINDOW[1] / (y1 - y0)
   const cell = Object.assign(document.createElement('div'), { className: 'cell specimen' })
-  const button = Object.assign(document.createElement('button'), {
-    type: 'button',
-    className: 'cream',
-    textContent: label,
-  })
-  button.dataset.capsule = ''
-  button.style.setProperty('width', `${w}px`)
-  button.style.setProperty('height', `${h}px`)
-  button.style.setProperty('padding', '0')
   const svg = node(
     'svg',
-    { viewBox: `0 0 ${WINDOW.join(' ')}`, role: 'img', 'aria-label': `${label} corner magnified` },
+    { viewBox: `0 0 ${WINDOW.join(' ')}`, role: 'img', 'aria-label': `${caption}, corner magnified` },
     cell,
   )
   const group = node('g', { transform: `scale(${sx} ${sy}) translate(${-x0} ${-y0})` }, svg)
-  node('path', { class: 'inside', d: capsulePath(w, h) }, group)
-  node('path', { class: 'gap', d: `${radiusPath(w, h)} ${capsulePath(w, h)}` }, group)
-  node('path', { class: 'radius', d: radiusPath(w, h) }, group)
-  node('path', { class: 'outline', d: capsulePath(w, h) }, group)
-  const caption = Object.assign(document.createElement('span'), {
-    className: 'label',
-    textContent: `${w} × ${h}, magnified ×${Math.round(sx)} along and ×${Math.round(sy)} deep. Gap up to ${(0.02 * r).toFixed(2)} px.`,
-  })
-  cell.prepend(button)
-  cell.append(caption)
-  deviation.append(cell)
+  node('path', { class: 'inside', d: shape }, group)
+  node('path', { class: 'gap', d: `${plain} ${shape}` }, group)
+  node('path', { class: 'radius', d: plain }, group)
+  node('path', { class: 'outline', d: shape }, group)
+  cell.prepend(element)
+  cell.append(
+    Object.assign(document.createElement('span'), {
+      className: 'label',
+      textContent: `${caption}, magnified ×${Math.round(sx)} along and ×${Math.round(sy)} deep.`,
+    }),
+  )
+  parent.append(cell)
+}
+
+function sized(element, w, h) {
+  element.dataset.capsule = ''
+  element.style.setProperty('width', `${w}px`)
+  element.style.setProperty('height', `${h}px`)
+  return element
+}
+
+const deviation = document.getElementById('deviation')
+for (const [label, w, h] of SPECIMENS) {
+  const button = sized(
+    Object.assign(document.createElement('button'), {
+      type: 'button',
+      className: 'cream',
+      textContent: label,
+    }),
+    w,
+    h,
+  )
+  button.style.setProperty('padding', '0')
+  specimen(deviation, button, h / 2, radiusPath(w, h), capsulePath(w, h), `${w} × ${h}`)
+}
+
+// Partial radii: the same reading against a continuous corner of that radius.
+const TILES = [
+  ['App icon', 96, 96, 21.5],
+  ['Card', 220, 132, 24],
+  ['Button', 168, 48, 12],
+]
+const corners = document.getElementById('corners')
+for (const [label, w, h, r] of TILES) {
+  const tile = sized(
+    Object.assign(document.createElement('div'), { className: 'tile', textContent: label }),
+    w,
+    h,
+  )
+  tile.style.setProperty('border-radius', `${r}px`)
+  specimen(corners, tile, r, roundedPath(w, h, r, 0), roundedPath(w, h, r), `${w} × ${h}, radius ${r}px`)
 }
 
 // ── Closing ─────────────────────────────────────────────────────────

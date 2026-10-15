@@ -122,6 +122,122 @@ export function capsuleRingPath(width: number, height: number, thickness: number
   return `${capsulePath(width, height)} ${capsulePath(width - 2 * thickness, height - 2 * thickness, thickness, thickness)}`
 }
 
+/** Radii for the four corners, clockwise from the top left. */
+export type Radii = readonly [topLeft: number, topRight: number, bottomRight: number, bottomLeft: number]
+
+/** Figma's iOS preset, and what Apple's own continuous corners measure. */
+export const IOS_SMOOTHING = 0.6
+
+/**
+ * A rectangle with continuous (smoothed) corners of `radius`, as SVG path data
+ * offset by (`x`, `y`). Each corner is Figma's corner smoothing: a circular
+ * arc shortened by `smoothing` (0 is `border-radius`, 1 is fully smoothed),
+ * entered and left through cubic transitions that ramp the curvature from
+ * zero, so the edge flows into the corner without a visible joint.
+ *
+ * Radii above half the shorter side are clamped there, and the smoothing
+ * shrinks to fit what is left, the way Figma resolves it. For a fully rounded
+ * box use {@link capsulePath}, which is calibrated against iOS instead.
+ *
+ * @throws {RangeError} when a dimension is not a positive finite number.
+ */
+export function roundedPath(
+  width: number,
+  height: number,
+  radius: number | Radii,
+  smoothing: number = IOS_SMOOTHING,
+  x = 0,
+  y = 0,
+): string {
+  assertExtent('width', width)
+  assertExtent('height', height)
+  const budget = Math.min(width, height) / 2
+  const radii: Radii = typeof radius === 'number' ? [radius, radius, radius, radius] : radius
+  const clamped = (r: number): Corner => corner(Math.min(Math.max(0, r), budget), smoothing, budget)
+  const tl = clamped(radii[0])
+  const tr = clamped(radii[1])
+  const br = clamped(radii[2])
+  const bl = clamped(radii[3])
+  const n = (value: number): number => round(value)
+  const at = (px: number, py: number): string => `${n(px + x)} ${n(py + y)}`
+
+  // Every corner is the same three pieces, turned a quarter each time:
+  // transition cubic, arc, transition cubic. (dx, dy) is the travel direction.
+  const turn = (c: Corner, dx: number, dy: number): string => {
+    const { a, b, c: cc, d, arc, r } = c
+    // Along the incoming edge (dx, dy), then bending toward (-dy, dx).
+    const ux = -dy
+    const uy = dx
+    const v = (along: number, across: number): string =>
+      `${n(dx * along + ux * across)} ${n(dy * along + uy * across)}`
+    return (
+      ` c ${v(a, 0)} ${v(a + b, 0)} ${v(a + b + cc, d)}` +
+      ` a ${n(r)} ${n(r)} 0 0 1 ${v(arc, arc)}` +
+      ` c ${v(d, cc)} ${v(d, b + cc)} ${v(d, a + b + cc)}`
+    )
+  }
+
+  return (
+    `M ${at(tl.p, 0)} L ${at(width - tr.p, 0)}${turn(tr, 1, 0)}` +
+    ` L ${at(width, height - br.p)}${turn(br, 0, 1)}` +
+    ` L ${at(bl.p, height)}${turn(bl, -1, 0)}` +
+    ` L ${at(0, tl.p)}${turn(tl, 0, -1)} Z`
+  )
+}
+
+/**
+ * {@link roundedPath} as a stroke of `thickness`: the outer outline plus the
+ * inner one, inset by `thickness` with radii reduced to match. Paint it with
+ * the `evenodd` fill rule.
+ *
+ * @throws {RangeError} when the stroke leaves no room for the hole.
+ */
+export function roundedRingPath(
+  width: number,
+  height: number,
+  radius: number | Radii,
+  thickness: number,
+  smoothing: number = IOS_SMOOTHING,
+): string {
+  assertExtent('thickness', thickness)
+  if (2 * thickness >= Math.min(width, height)) {
+    throw new RangeError(`capsule: thickness ${thickness} leaves no hole inside a ${width}×${height} box`)
+  }
+  const [tl, tr, br, bl]: Radii = typeof radius === 'number' ? [radius, radius, radius, radius] : radius
+  const inset = (r: number): number => Math.max(0, r - thickness)
+  const inner: Radii = [inset(tl), inset(tr), inset(br), inset(bl)]
+  return `${roundedPath(width, height, radius, smoothing)} ${roundedPath(width - 2 * thickness, height - 2 * thickness, inner, smoothing, thickness, thickness)}`
+}
+
+interface Corner {
+  /** Distance from the corner where the edge starts to bend. */
+  readonly p: number
+  readonly a: number
+  readonly b: number
+  readonly c: number
+  readonly d: number
+  /** Chord of the arc, on each axis. */
+  readonly arc: number
+  readonly r: number
+}
+
+/** Figma's corner smoothing for one corner ("Desperately seeking squircles"). */
+function corner(r: number, smoothing: number, budget: number): Corner {
+  const wanted = Math.min(Math.max(0, smoothing), 1)
+  const s = r > 0 ? Math.min(wanted, Math.max(0, budget / r - 1)) : 0
+  const p = Math.min((1 + s) * r, budget)
+  const degrees = Math.PI / 180
+  const arcMeasure = 90 * (1 - s)
+  const arc = Math.sin((arcMeasure / 2) * degrees) * r * Math.SQRT2
+  const alpha = (90 - arcMeasure) / 2
+  const p3p4 = r * Math.tan((alpha / 2) * degrees)
+  const beta = 45 * s
+  const c = p3p4 * Math.cos(beta * degrees)
+  const d = c * Math.tan(beta * degrees)
+  const b = (p - arc - c - d) / 3
+  return { p, a: 2 * b, b, c, d, arc, r }
+}
+
 /** Three decimals is 1/1000 px: below any rasterizer's precision. */
 function round(value: number): number {
   return +value.toFixed(3)

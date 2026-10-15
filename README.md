@@ -18,8 +18,8 @@
 **The iOS capsule, on your own HTML elements.**<br>
 <sub>by <a href="https://oubble.com">Oubble</a></sub>
 
-Calibrated against a native iOS button to under half a pixel.<br>
-No SVG. No wrappers. Zero dependencies. 2.3 kB.
+Calibrated against a native iOS button to under half a pixel, with continuous corners for every other radius.<br>
+No SVG. No wrappers. Zero dependencies. 3 kB.
 
 [![npm](https://img.shields.io/npm/v/@oubble/capsule?color=d3b885&label=npm)](https://www.npmjs.com/package/@oubble/capsule) [![size](https://img.shields.io/bundlejs/size/@oubble/capsule?color=d3b885)](https://bundlejs.com/?q=@oubble/capsule) [![ci](https://github.com/oubble/capsule/actions/workflows/ci.yml/badge.svg)](https://github.com/oubble/capsule/actions/workflows/ci.yml) [![types](https://img.shields.io/npm/types/@oubble/capsule?color=d3b885)](./src/core.ts) [![license](https://img.shields.io/npm/l/@oubble/capsule?color=d3b885)](./LICENSE)
 
@@ -93,6 +93,17 @@ import '@oubble/capsule'
 
 That is the whole integration. Every `[data-capsule]` element in the document is
 mounted, including elements inserted later by any framework.
+
+The element's own `border-radius` picks the shape. None, or a full radius, gives
+the calibrated capsule. Anything smaller gives a continuous corner of that
+radius, the smoothed corner iOS and Figma draw:
+
+```html
+<div data-capsule style="border-radius: 24px">Card</div>
+```
+
+`--capsule-smoothing` sets how much of each corner is smoothed, from `0`
+(exactly `border-radius`) to `1`. The default, `0.6`, is Figma's iOS preset.
 
 ## Recipes
 
@@ -187,7 +198,7 @@ Three entry points, one shared runtime. Each is tree-shakable ESM with types.
 | --- | --- | --- |
 | `@oubble/capsule` | mounts `[data-capsule]` on import | everything below |
 | `@oubble/capsule/core` | none | `mount` · `unmount` · `observe` · geometry |
-| `@oubble/capsule/geometry` | none, no DOM | `capsulePath` · `capsuleRingPath` |
+| `@oubble/capsule/geometry` | none, no DOM | `capsulePath` · `capsuleRingPath` · `roundedPath` · `roundedRingPath` |
 
 ```ts
 mount(host: HTMLElement): Unmount
@@ -215,6 +226,14 @@ capsuleRingPath(width: number, height: number, thickness: number): string
 ```
 Pure geometry as SVG path data, usable in `clip-path: path()`, `<path d>`,
 `Path2D`, canvas or a design tool export. Invalid sizes throw `RangeError`.
+
+```ts
+roundedPath(width: number, height: number, radius: number | Radii, smoothing?: number, x?: number, y?: number): string
+roundedRingPath(width: number, height: number, radius: number | Radii, thickness: number, smoothing?: number): string
+```
+A rectangle with continuous corners. `radius` is one value or four, clockwise
+from the top left; radii above half the short side are clamped and the
+smoothing fits what is left. `smoothing` defaults to `IOS_SMOOTHING` (0.6).
 
 ## Geometry
 
@@ -325,9 +344,8 @@ capsule in the stroke colour.
 
 ## Limitations
 
-- **Pills only, by design.** For partial radii, CSS already has
-  `corner-shape: squircle` (Chromium 139+). Capsule covers the case native CSS
-  gets wrong.
+- **One radius per corner.** Elliptical radii (`12px / 6px`) use their
+  horizontal value.
 - **`::before` is reserved** on mounted elements.
 - **Background changes made by `:hover` or inline styles** are not observed;
   route them through `--capsule-fill`. Changes through `class` are picked up.

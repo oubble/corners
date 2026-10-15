@@ -14,6 +14,10 @@ First public release.
 
 - `capsulePath` and `capsuleRingPath`: iOS-calibrated capsule outlines as SVG
   path data, available DOM-free from `@oubble/capsule/geometry`.
+- `roundedPath` and `roundedRingPath`: continuous corners for any radius, with
+  Figma's corner smoothing (`IOS_SMOOTHING`, 0.6, by default).
+- A partial `border-radius` on a mounted element becomes a continuous corner of
+  that radius; `--capsule-smoothing` sets how smooth.
 - `mount`, `unmount` and `observe` in `@oubble/capsule/core`, with no side effects.
 - `@oubble/capsule` entry that mounts every `[data-capsule]` element on import.
 - Strokes through `data-capsule-stroke` and `--capsule-stroke`; fill overrides
