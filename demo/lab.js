@@ -1,17 +1,25 @@
 import { capsulePath, mount, observe, unmount } from './dist/core.js'
 
-// Mirror diagnostics on the page.
+// Mirror diagnostics on the page, one row per warning: code, message, docs.
 const panel = document.getElementById('diagnostics')
+const warnings = document.getElementById('warnings')
 const warn = console.warn.bind(console)
 console.warn = (...args) => {
   warn(...args)
-  panel.textContent += `${args.find((arg) => typeof arg === 'string')}\n`
+  const text = args.find((arg) => typeof arg === 'string') ?? ''
+  const match = /(OUB\d+): (.*?)\s*(https:\S+)?$/s.exec(text)
+  if (!match) return
+  const [, code, message, link] = match
+  const row = document.createElement('li')
+  row.append(
+    Object.assign(document.createElement('span'), { className: 'code', textContent: code }),
+    Object.assign(document.createElement('p'), { textContent: message }),
+  )
+  if (link) row.append(Object.assign(document.createElement('a'), { href: link, textContent: 'Docs ↗' }))
+  warnings.append(row)
+  panel.hidden = false
 }
 observe()
-
-document.getElementById('shadows').addEventListener('change', (event) => {
-  document.getElementById('gallery').classList.toggle('shadows', event.target.checked)
-})
 
 setTimeout(() => {
   const button = Object.assign(document.createElement('button'), {
@@ -86,7 +94,7 @@ for (const [label, w, h] of SPECIMENS) {
   const [x0, x1, y0, y1] = [0.45 * r, 1.5 * r, -0.012 * r, 0.12 * r]
   const sx = WINDOW[0] / (x1 - x0)
   const sy = WINDOW[1] / (y1 - y0)
-  const cell = Object.assign(document.createElement('div'), { className: 'specimen' })
+  const cell = Object.assign(document.createElement('div'), { className: 'cell specimen' })
   const button = Object.assign(document.createElement('button'), {
     type: 'button',
     className: 'cream',
