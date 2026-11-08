@@ -49,8 +49,9 @@ major.
 
 1. Move the `Unreleased` notes in `CHANGELOG.md` under the new version and date.
 2. `npm version <patch|minor|major>` commits the bump and creates the tag.
-3. `git push --follow-tags`. The `release` workflow verifies the tag against
-   `package.json`, runs the full suite and publishes with provenance.
+3. `git push --follow-tags`. The `publish` workflow checks that the tag matches
+   `package.json` and sits on `main`, runs the full suite and publishes through
+   npm trusted publishing (OIDC, no npm token), with provenance.
 
 The very first version has to be published by hand, because npm only accepts
 trusted publishing for a package that already exists:
@@ -61,5 +62,6 @@ npm publish --provenance=false
 ```
 
 Then, on npmjs.com, open the package settings, add GitHub Actions as a trusted
-publisher (repository `oubble/corners`, workflow `release.yml`, environment
-`npm`) and from there on every release goes through the workflow.
+publisher (repository `oubble/corners`, workflow `publish.yml`, environment
+`npm`, allowed action `npm publish`) and from there on every release goes
+through the workflow.

@@ -6,6 +6,20 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Security
+
+- 2026-11-08: releases are published by the `publish` workflow through npm
+  trusted publishing (OIDC). No npm token is stored anywhere, every release
+  carries a provenance attestation, and only a `v*` tag on a commit already in
+  `main` can publish. The release build runs without a dependency cache.
+- 2026-11-08: installs refuse dependency versions younger than one day and
+  versions whose publishing trust dropped (for example, provenance lost), and
+  no dependency runs install scripts.
+- 2026-11-08: Dependabot checks npm and GitHub Actions weekly; the repository
+  has a code owner, and `main` and release tags cannot be force-pushed or
+  deleted.
+- 2026-11-08: Node 26 (current LTS) for CI, the lab and releases.
+
 ## [1.0.0] - 2026-10-15
 
 First public release.

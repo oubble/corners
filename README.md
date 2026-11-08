@@ -361,9 +361,12 @@ capsule in the stroke colour.
   suite verifies this under `default-src 'self'` with no inline styles allowed,
   and the [live lab](https://lab.oubble.com/corners/) is served under
   `default-src 'none'`.
-- **Provenance.** Releases are built and published from GitHub Actions with
+- **Provenance.** Releases after 1.0.0 are built and published from GitHub
+  Actions through npm trusted publishing, with
   [npm provenance](https://docs.npmjs.com/generating-provenance-statements),
-  so every version links to the exact commit and workflow that built it.
+  so each version links to the exact commit and workflow that built it. 1.0.0
+  was published by hand; its tarball is byte-identical to `pnpm build` at tag
+  `v1.0.0`.
 
 Report vulnerabilities privately; see [SECURITY.md](./SECURITY.md).
 

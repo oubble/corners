@@ -1,7 +1,7 @@
+# Supply chain: https://pnpm.io/supply-chain-security
+minimumReleaseAge: 1440
+trustPolicy: no-downgrade
+# No dependency runs install scripts; everything builds and deploys without them.
 allowBuilds:
-  esbuild: true
-  workerd: true
-minimumReleaseAgeExclude:
-  - '@playwright/test@1.64.1'
-  - playwright-core@1.64.1
-  - playwright@1.64.1
+  esbuild: false
+  workerd: false
